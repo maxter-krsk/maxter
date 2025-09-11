@@ -4,7 +4,7 @@ import { unbounded } from "@/app/ui/fonts";
 
 export default function Footer() {
   return (
-    <footer className="relative">
+    <footer>
       <div className="container">
         <ul className="flex justify-between mb-20">
           <li className="flex flex-col">
@@ -29,10 +29,10 @@ export default function Footer() {
             <Link href="/privacy-policy">Политика конфиденциальности</Link>
           </li>
         </ul>
-        <div className="absolute top-[15rem]">
-            <h1 className={`${unbounded.className}font-black`}>maxter</h1>
-        </div>
-
+        <img
+          src="/icons/logos/footer-logo.svg"
+          alt="Логотип компании в подвале сайта"
+        />
       </div>
     </footer>
   );
