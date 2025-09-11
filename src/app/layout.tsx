@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { roboto } from '@/app/ui/fonts';
 import "./globals.css";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   title: "Maxter - Digital-партнёр",
@@ -20,6 +21,7 @@ export default function RootLayout({
         className={`${roboto.className} flex flex-col min-h-screen overflow-x-hidden`}>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
