@@ -1,5 +1,6 @@
 import Logo from "@/app/ui/Logo";
 import Link from "next/link";
+import NavMenu from "./NavMenu";
 export default function Header() {
   return (
     <header>
@@ -10,23 +11,7 @@ export default function Header() {
             <span className="uppercase">maxter</span>
           </div>
           <nav>
-            <ul className="flex gap-x-4">
-              <li>
-                <Link href="/about" className="text-blue-500 underline">
-                  О нас
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className="text-blue-500 underline">
-                  Услуги
-                </Link>
-              </li>
-              <li>
-                <Link href="/contacts" className="text-blue-500 underline">
-                  Наши контакты
-                </Link>
-              </li>
-            </ul>
+            <NavMenu />
           </nav>
           <div className="flex flex-col gap-y-2 items-center">
             <Link href="mailto:maxter24@yandex.ru">maxter24@yandex.ru</Link>
