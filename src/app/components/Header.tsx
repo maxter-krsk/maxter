@@ -1,6 +1,6 @@
 import Logo from "@/app/ui/Logo";
 import Link from "next/link";
-import NavMenu from "./NavMenu";
+import NavMenuHeader from "./NavMenuHeader";
 export default function Header() {
   return (
     <header>
@@ -11,7 +11,7 @@ export default function Header() {
             <span className="uppercase">maxter</span>
           </div>
           <nav>
-            <NavMenu />
+            <NavMenuHeader />
           </nav>
           <div className="flex flex-col gap-y-2 items-center">
             <Link href="mailto:maxter24@yandex.ru">maxter24@yandex.ru</Link>
