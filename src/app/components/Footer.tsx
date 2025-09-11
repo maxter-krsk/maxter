@@ -1,22 +1,25 @@
 import Link from "next/link";
 import NavMenuFooter from "./NavMenuFooter";
+import { unbounded } from "@/app/ui/fonts";
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className="relative">
       <div className="container">
-        <ul className="flex justify-between">
+        <ul className="flex justify-between mb-20">
           <li className="flex flex-col">
             <span>digital</span>
             <span>upgrade</span>
           </li>
-          <li>
+          <li className="flex gap-x-5">
             <NavMenuFooter />
-            <Link href="mailto:maxter24@yandex.ru">maxter24@yandex.ru</Link>
-            <Link href="tel:+79230198369">+7 (923) 019-83-69</Link>
+            <div className="flex flex-col">
+              <Link href="tel:+79230198369">+7 (923) 019-83-69</Link>
+              <Link href="mailto:maxter24@yandex.ru">maxter24@yandex.ru</Link>
+            </div>
           </li>
         </ul>
-        <ul>
+        <ul className="flex justify-between">
           <li>
             <p>
               Агенство коммуникаций Maxter &copy; {new Date().getFullYear()}
@@ -26,7 +29,10 @@ export default function Footer() {
             <Link href="/privacy-policy">Политика конфиденциальности</Link>
           </li>
         </ul>
-        <h1>maxter</h1>
+        <div className="absolute top-[15rem]">
+            <h1 className={`${unbounded.className}font-black`}>maxter</h1>
+        </div>
+
       </div>
     </footer>
   );
