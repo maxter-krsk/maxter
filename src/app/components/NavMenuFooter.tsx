@@ -1,7 +1,7 @@
 import Link from "next/link";
-export default function NavMenu() {
+export default function NavMenuFooter() {
   return (
-    <ul className="flex gap-x-4">
+    <ul className="flex flex-col">
       <li>
         <Link href="/about" className="text-blue-500 underline">
           О нас

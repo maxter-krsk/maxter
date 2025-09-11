@@ -1,17 +1,17 @@
 import Link from "next/link";
-import NavMenu from "./NavMenu";
+import NavMenuFooter from "./NavMenuFooter";
 
 export default function Footer() {
   return (
     <footer>
       <div className="container">
-        <ul>
-          <li>
+        <ul className="flex justify-between">
+          <li className="flex flex-col">
             <span>digital</span>
             <span>upgrade</span>
           </li>
           <li>
-            <NavMenu />
+            <NavMenuFooter />
             <Link href="mailto:maxter24@yandex.ru">maxter24@yandex.ru</Link>
             <Link href="tel:+79230198369">+7 (923) 019-83-69</Link>
           </li>
