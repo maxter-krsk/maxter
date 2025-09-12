@@ -45,68 +45,68 @@ jobs:
 
           case "$EVENT" in
             push)
-              HEADER="🔔 PUSH"
+              HEADER="🔔 <b>PUSH</b>"
               LINK="${COMPARE_URL:-$HTML_URL}"
-              LINES=("repo: ${REPO}" "branch: ${BRANCH:-$REF}" "by: ${ACTOR}" "sha: ${SHA:0:7}")
-              [ -n "$COMMIT_MSG" ] && LINES+=("• $(printf '%s' "$COMMIT_MSG" | head -n1)")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Branch:</b> <code>${BRANCH:-$REF}</code>" "<b>Author:</b> <code>${ACTOR}</code>" "<b>Commit:</b> <code>${SHA:0:7}</code>")
+              [ -n "$COMMIT_MSG" ] && LINES+=("<b>Message:</b> <i>$(printf '%s' "$COMMIT_MSG" | head -n1)</i>")
               ;;
             commit_comment)
-              HEADER="💬 COMMIT COMMENT"
+              HEADER="💬 <b>COMMIT COMMENT</b>"
               LINK="$HTML_URL"
-              LINES=("repo: ${REPO}" "by: ${ACTOR}" "comment: $(printf '%s' "$COMMENT_BODY" | head -n1)")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>" "<b>Comment:</b> <i>$(printf '%s' "$COMMENT_BODY" | head -n1)</i>")
               ;;
             pull_request)
-              HEADER="🔀 PR ${ACTION^^}"
+              HEADER="🔀 <b>PR ${ACTION^^}</b>"
               LINK="$HTML_URL"
-              LINES=("repo: ${REPO}" "by: ${ACTOR}")
-              [ -n "$PR_NUM" ] && LINES+=("PR #${PR_NUM}")
-              [ -n "$TITLE" ] && LINES+=("• ${TITLE}")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$PR_NUM" ] && LINES+=("<b>Pull Request:</b> #${PR_NUM}")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
               ;;
             pull_request_review)
               STATE=$(jq -r '.review.state // empty' "$GITHUB_EVENT_PATH")
-              HEADER="📝 PR REVIEW ${STATE^^}"
+              HEADER="📝 <b>PR REVIEW ${STATE^^}</b>"
               LINK="$HTML_URL"
-              LINES=("repo: ${REPO}" "by: ${ACTOR}")
-              [ -n "$PR_NUM" ] && LINES+=("PR #${PR_NUM}")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Reviewer:</b> <code>${ACTOR}</code>")
+              [ -n "$PR_NUM" ] && LINES+=("<b>Pull Request:</b> #${PR_NUM}")
               ;;
             pull_request_review_comment)
-              HEADER="💬 PR REVIEW COMMENT"
+              HEADER="💬 <b>PR REVIEW COMMENT</b>"
               LINK="$HTML_URL"
-              LINES=("repo: ${REPO}" "by: ${ACTOR}")
-              [ -n "$PR_NUM" ] && LINES+=("PR #${PR_NUM}")
-              [ -n "$TITLE" ] && LINES+=("• ${TITLE}")
-              [ -n "$COMMENT_BODY" ] && LINES+=("comment: $(printf '%s' "$COMMENT_BODY" | head -n1)")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$PR_NUM" ] && LINES+=("<b>Pull Request:</b> #${PR_NUM}")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
+              [ -n "$COMMENT_BODY" ] && LINES+=("<b>Comment:</b> <i>$(printf '%s' "$COMMENT_BODY" | head -n1)</i>")
               ;;
             issues)
-              HEADER="🧩 ISSUE ${ACTION^^}"
+              HEADER="🧩 <b>ISSUE ${ACTION^^}</b>"
               LINK="$HTML_URL"
-              LINES=("repo: ${REPO}" "by: ${ACTOR}")
-              [ -n "$ISSUE_NUM" ] && LINES+=("Issue #${ISSUE_NUM}")
-              [ -n "$TITLE" ] && LINES+=("• ${TITLE}")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$ISSUE_NUM" ] && LINES+=("<b>Issue:</b> #${ISSUE_NUM}")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
               ;;
             issue_comment)
-              HEADER="💬 ISSUE COMMENT"
+              HEADER="💬 <b>ISSUE COMMENT</b>"
               LINK="$HTML_URL"
-              LINES=("repo: ${REPO}" "by: ${ACTOR}")
-              [ -n "$ISSUE_NUM" ] && LINES+=("Issue #${ISSUE_NUM}")
-              [ -n "$TITLE" ] && LINES+=("• ${TITLE}")
-              [ -n "$COMMENT_BODY" ] && LINES+=("comment: $(printf '%s' "$COMMENT_BODY" | head -n1)")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$ISSUE_NUM" ] && LINES+=("<b>Issue:</b> #${ISSUE_NUM}")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
+              [ -n "$COMMENT_BODY" ] && LINES+=("<b>Comment:</b> <i>$(printf '%s' "$COMMENT_BODY" | head -n1)</i>")
               ;;
             release)
-              HEADER="🏷️ RELEASE ${ACTION^^}"
+              HEADER="🏷️ <b>RELEASE ${ACTION^^}</b>"
               LINK="$HTML_URL"
-              LINES=("repo: ${REPO}" "by: ${ACTOR}")
-              [ -n "$TITLE" ] && LINES+=("• ${TITLE}")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
               ;;
             create|delete)
-              HEADER=$([ "$EVENT" = create ] && echo "🌱 CREATE ${REF_TYPE^^}" || echo "🗑️ DELETE ${REF_TYPE^^}")
+              HEADER=$([ "$EVENT" = create ] && echo "🌱 <b>CREATE ${REF_TYPE^^}</b>" || echo "🗑️ <b>DELETE ${REF_TYPE^^}</b>")
               LINK="$HTML_URL"
-              LINES=("repo: ${REPO}" "${REF_TYPE}: ${REF_NAME}" "by: ${ACTOR}")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>${REF_TYPE^}:</b> <code>${REF_NAME}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
               ;;
             *)
-              HEADER="🔔 ${EVENT^^} ${ACTION^^}"
+              HEADER="🔔 <b>${EVENT^^} ${ACTION^^}</b>"
               LINK="$HTML_URL"
-              LINES=("repo: ${REPO}" "by: ${ACTOR}")
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
               ;;
           esac
 
