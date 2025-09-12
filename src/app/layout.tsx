@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { roboto } from '@/app/ui/fonts';
+import { roboto } from "@/app/ui/fonts";
 import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -18,9 +18,10 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${roboto.className} flex flex-col min-h-screen overflow-x-hidden`}>
+        className={`${roboto.className} flex flex-col min-h-screen overflow-x-hidden`}
+      >
         <Header />
-        {children}
+        <main className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>
