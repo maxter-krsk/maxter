@@ -110,12 +110,21 @@ jobs:
               ;;
           esac
 
-          MSG="${HEADER}"
-          for L in "${LINES[@]}"; do MSG="${MSG}\n${L}"; done
-          [ -n "$LINK" ] && MSG="${MSG}\n🔗 ${LINK}"
-
-          # Отправляем сообщение как есть, без экранирования HTML
-          echo "text=$MSG" >> $GITHUB_OUTPUT
+          # Создаем сообщение с реальными переносами строк
+          {
+            echo "${HEADER}"
+            printf '%s\n' "${LINES[@]}"
+            [ -n "$LINK" ] && echo "🔗 ${LINK}"
+          } > message.txt
+          
+          # Читаем сообщение из файла, сохраняя переносы строк
+          MSG=$(cat message.txt)
+          
+          # Отправляем сообщение и удаляем временный файл
+          echo "text<<EOF" >> $GITHUB_OUTPUT
+          echo "$MSG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          rm message.txt
 
       - name: Send to Telegram
         run: |
