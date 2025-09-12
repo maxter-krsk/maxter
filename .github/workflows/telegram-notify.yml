@@ -4,7 +4,6 @@ on:
   push:
   create:
   delete:
-  commit_comment:
     types: [created]
   pull_request:
     types: [opened, reopened, synchronize, closed, ready_for_review, converted_to_draft]
