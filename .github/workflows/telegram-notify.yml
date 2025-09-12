@@ -1,0 +1,134 @@
+name: Telegram Repo Alerts
+
+on:
+  push:
+  create:
+  delete:
+    types: [created]
+  pull_request:
+    types: [opened, reopened, synchronize, closed, ready_for_review, converted_to_draft]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+  pull_request_review_comment:
+    types: [created, edited]
+  issues:
+    types: [opened, edited, closed, reopened]
+  issue_comment:
+    types: [created]
+  release:
+    types: [published, created]
+  workflow_dispatch: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compose Telegram message
+        id: build
+        run: |
+          EVENT="${{ github.event_name }}"
+          ACTION=$(jq -r '.action // empty' "$GITHUB_EVENT_PATH")
+          REPO="${{ github.repository }}"
+          ACTOR="${{ github.actor }}"
+          REF="${{ github.ref }}"
+          REF_TYPE=$(jq -r '.ref_type // empty' "$GITHUB_EVENT_PATH")
+          REF_NAME=$(jq -r '.ref // empty' "$GITHUB_EVENT_PATH")
+          SHA="${{ github.sha }}"
+          COMPARE_URL="${{ github.event.compare }}"
+          HTML_URL=$(jq -r '.pull_request.html_url // .issue.html_url // .comment.html_url // .release.html_url // .repository.html_url // empty' "$GITHUB_EVENT_PATH")
+          TITLE=$(jq -r '.pull_request.title // .issue.title // .release.name // empty' "$GITHUB_EVENT_PATH")
+          PR_NUM=$(jq -r '.pull_request.number // empty' "$GITHUB_EVENT_PATH")
+          ISSUE_NUM=$(jq -r '.issue.number // empty' "$GITHUB_EVENT_PATH")
+          COMMENT_BODY=$(jq -r '.comment.body // empty' "$GITHUB_EVENT_PATH")
+          COMMIT_MSG=$(jq -r '.head_commit.message // empty' "$GITHUB_EVENT_PATH")
+          BRANCH="${REF#refs/heads/}"
+
+          case "$EVENT" in
+            push)
+              HEADER="🔔 <b>PUSH</b>"
+              LINK="${COMPARE_URL:-$HTML_URL}"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Branch:</b> <code>${BRANCH:-$REF}</code>" "<b>Author:</b> <code>${ACTOR}</code>" "<b>Commit:</b> <code>${SHA:0:7}</code>")
+              [ -n "$COMMIT_MSG" ] && LINES+=("<b>Message:</b> <i>$(printf '%s' "$COMMIT_MSG" | head -n1)</i>")
+              ;;
+            commit_comment)
+              HEADER="💬 <b>COMMIT COMMENT</b>"
+              LINK="$HTML_URL"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>" "<b>Comment:</b> <i>$(printf '%s' "$COMMENT_BODY" | head -n1)</i>")
+              ;;
+            pull_request)
+              HEADER="🔀 <b>PR ${ACTION^^}</b>"
+              LINK="$HTML_URL"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$PR_NUM" ] && LINES+=("<b>Pull Request:</b> #${PR_NUM}")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
+              ;;
+            pull_request_review)
+              STATE=$(jq -r '.review.state // empty' "$GITHUB_EVENT_PATH")
+              HEADER="📝 <b>PR REVIEW ${STATE^^}</b>"
+              LINK="$HTML_URL"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Reviewer:</b> <code>${ACTOR}</code>")
+              [ -n "$PR_NUM" ] && LINES+=("<b>Pull Request:</b> #${PR_NUM}")
+              ;;
+            pull_request_review_comment)
+              HEADER="💬 <b>PR REVIEW COMMENT</b>"
+              LINK="$HTML_URL"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$PR_NUM" ] && LINES+=("<b>Pull Request:</b> #${PR_NUM}")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
+              [ -n "$COMMENT_BODY" ] && LINES+=("<b>Comment:</b> <i>$(printf '%s' "$COMMENT_BODY" | head -n1)</i>")
+              ;;
+            issues)
+              HEADER="🧩 <b>ISSUE ${ACTION^^}</b>"
+              LINK="$HTML_URL"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$ISSUE_NUM" ] && LINES+=("<b>Issue:</b> #${ISSUE_NUM}")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
+              ;;
+            issue_comment)
+              HEADER="💬 <b>ISSUE COMMENT</b>"
+              LINK="$HTML_URL"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$ISSUE_NUM" ] && LINES+=("<b>Issue:</b> #${ISSUE_NUM}")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
+              [ -n "$COMMENT_BODY" ] && LINES+=("<b>Comment:</b> <i>$(printf '%s' "$COMMENT_BODY" | head -n1)</i>")
+              ;;
+            release)
+              HEADER="🏷️ <b>RELEASE ${ACTION^^}</b>"
+              LINK="$HTML_URL"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              [ -n "$TITLE" ] && LINES+=("<b>Title:</b> <i>${TITLE}</i>")
+              ;;
+            create|delete)
+              HEADER=$([ "$EVENT" = create ] && echo "🌱 <b>CREATE ${REF_TYPE^^}</b>" || echo "🗑️ <b>DELETE ${REF_TYPE^^}</b>")
+              LINK="$HTML_URL"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>${REF_TYPE^}:</b> <code>${REF_NAME}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              ;;
+            *)
+              HEADER="🔔 <b>${EVENT^^} ${ACTION^^}</b>"
+              LINK="$HTML_URL"
+              LINES=("<b>Repository:</b> <code>${REPO}</code>" "<b>Author:</b> <code>${ACTOR}</code>")
+              ;;
+          esac
+
+          # Создаем сообщение с реальными переносами строк
+          {
+            echo "${HEADER}"
+            printf '%s\n' "${LINES[@]}"
+            [ -n "$LINK" ] && echo "🔗 ${LINK}"
+          } > message.txt
+          
+          # Читаем сообщение из файла, сохраняя переносы строк
+          MSG=$(cat message.txt)
+          
+          # Отправляем сообщение и удаляем временный файл
+          echo "text<<EOF" >> $GITHUB_OUTPUT
+          echo "$MSG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          rm message.txt
+
+      - name: Send to Telegram
+        run: |
+          curl -sS -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d parse_mode="HTML" \
+            --data-urlencode "text=${{ steps.build.outputs.text }}"
