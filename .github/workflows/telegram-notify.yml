@@ -114,9 +114,8 @@ jobs:
           for L in "${LINES[@]}"; do MSG="${MSG}\n${L}"; done
           [ -n "$LINK" ] && MSG="${MSG}\n🔗 ${LINK}"
 
-          # экранируем HTML
-          ESCAPED=$(printf "%s" "$MSG" | sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g')
-          echo "text=$ESCAPED" >> $GITHUB_OUTPUT
+          # Отправляем сообщение как есть, без экранирования HTML
+          echo "text=$MSG" >> $GITHUB_OUTPUT
 
       - name: Send to Telegram
         run: |
