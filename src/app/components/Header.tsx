@@ -10,24 +10,22 @@ export default function Header() {
         <Grid
           container
           spacing="grow"
-          className=" in-h-[3rem] border-b-1 border-l-1 border-r-1 border-black"
+          className="min-h-[3rem] border-b-1 border-l-1 border-r-1 border-black"
         >
-          <Grid className="flex justify-center p-[0.625rem] border-r-1 border-black">
+          <Grid className="flex justify-center p-[0.625rem] items-center border-r-1 border-black">
             <Logo />
           </Grid>
           <Grid
             className="border-r-1 border-black flex items-center justify-start pl-3"
             size="grow"
           >
-            <span
-              className="uppercase font-bold text-2xl text-[#423060]"
-            >
+            <span className="uppercase font-bold text-2xl text-[#423060]">
               maxter
             </span>
           </Grid>
           <Grid
             className="border-r-1 border-black flex items-center justify-center"
-            size="auto"
+            size="grow"
           >
             <nav>
               <NavMenuHeader />
@@ -35,14 +33,17 @@ export default function Header() {
           </Grid>
           <Grid
             className="flex flex-col items-center justify-evenly"
-            size="grow"
+            // size="grow"
           >
-              <Link className="uppercase border-b-1 border-black w-full text-center pb-[0.375rem]" href="mailto:maxter24@yandex.ru">
-                maxter24@yandex.ru
-              </Link>
-              <Link href="tel:+79230198369">
-                +7 (923) 019-83-69
-              </Link>
+            <Link
+              className="uppercase border-b-1 border-black w-full text-center pb-[0.375rem]"
+              href="mailto:maxter24@yandex.ru"
+            >
+              <img className="p-[0.62rem]" src="/icons/ui/email-icon.svg" alt="email иконка" />
+            </Link>
+            <Link href="tel:+79230198369">
+              <img className="p-[0.62rem]" src="/icons/ui/call-icon.svg" alt="Трубка телефона" />
+            </Link>
           </Grid>
           <Grid
             size="grow"
