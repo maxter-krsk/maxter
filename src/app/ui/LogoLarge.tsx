@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function LogoLarge() {
   return (
-    <section className="flex flex-col items-center gap-4">
+    <section className="flex flex-col items-center gap-[1.5rem]">
       <Image
         width={300}
         height={120}

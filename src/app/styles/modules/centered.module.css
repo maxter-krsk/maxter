@@ -1,5 +1,5 @@
 @reference "../../globals.css";
 
 .centered {
-  @apply flex flex-col justify-center items-center gap-4 text-center min-h-screen;
+  @apply flex flex-col justify-center items-center text-center min-h-screen;
 }
