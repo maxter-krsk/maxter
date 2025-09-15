@@ -4,7 +4,7 @@ import { unbounded } from "@/app/ui/fonts";
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className="mt-[10rem]">
       <div className="container">
         <ul className="flex justify-between items-center mb-20">
           <li className="flex flex-col">
