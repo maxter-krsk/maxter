@@ -6,33 +6,52 @@ export default function Footer() {
   return (
     <footer>
       <div className="container">
-        <ul className="flex justify-between mb-20">
+        <ul className="flex justify-between items-center mb-20">
           <li className="flex flex-col">
-            <span>digital</span>
-            <span>upgrade</span>
+            <span className={`${unbounded.className} uppercase font-bold`}>
+              digital
+            </span>
+            <span className={`${unbounded.className} uppercase font-bold`}>
+              upgrade
+            </span>
           </li>
-          <li className="flex gap-x-5">
+          <li className="flex justify-between gap-x-20">
             <NavMenuFooter />
             <div className="flex flex-col">
-              <Link href="tel:+79230198369">+7 (923) 019-83-69</Link>
-              <Link href="mailto:maxter24@yandex.ru">maxter24@yandex.ru</Link>
+              <p className={`${unbounded.className} uppercase`}>
+                связаться с нами:
+              </p>
+              <Link
+                className={`${unbounded.className} uppercase`}
+                href="tel:+79230198369"
+              >
+                +7 (923) 019-83-69
+              </Link>
+              <Link
+                className={`${unbounded.className} uppercase`}
+                href="mailto:maxter24@yandex.ru"
+              >
+                maxter24@yandex.ru
+              </Link>
             </div>
           </li>
         </ul>
-        <ul className="flex justify-between">
+        <ul className="flex justify-between mb-[2.5rem]">
           <li>
             <p>
-              Агенство коммуникаций Maxter &copy; {new Date().getFullYear()}
+              Агентство коммуникаций Maxter &copy; {new Date().getFullYear()}
             </p>
           </li>
           <li>
             <Link href="/privacy-policy">Политика конфиденциальности</Link>
           </li>
         </ul>
-        <img
-          src="/icons/logos/footer-logo.svg"
-          alt="Логотип компании в подвале сайта"
-        />
+        <Link href="/">
+          <img
+            src="/icons/logos/footer-logo.svg"
+            alt="Логотип компании в подвале сайта"
+          />
+        </Link>
       </div>
     </footer>
   );

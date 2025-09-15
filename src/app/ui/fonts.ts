@@ -2,7 +2,7 @@ import { Roboto } from "next/font/google";
 import { Unbounded } from "next/font/google";
 
 export const roboto = Roboto({
-  weight: ["300"],
+  weight: ["300", "700"],
   subsets: ["latin"],
 });
 
