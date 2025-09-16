@@ -1,0 +1,5 @@
+@reference "../../globals.css";
+
+.line-gradient {
+	@apply bg-gradient-to-r from-transparent via-black to-transparent;
+}
