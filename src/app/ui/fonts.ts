@@ -7,6 +7,6 @@ export const roboto = Roboto({
 });
 
 export const unbounded = Unbounded({
-  weight: ["400", "700", "800"],
+  weight: ["300", "400", "700", "800"],
   subsets: ["latin"],
 });
