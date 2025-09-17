@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { unbounded, roboto } from "@/app/ui/fonts";
 import Link from "next/link";
 import styles from "@/app/styles/modules/policy.module.css";
+import line from "@/app/styles/modules/link-underline.module.css";
 
 export default function PrivacyPolicy() {
   return (
@@ -37,10 +38,20 @@ export default function PrivacyPolicy() {
         <p>
           1.2. Настоящая политика Оператора в отношении обработки персональных
           данных (далее — Политика) применяется ко всей информации, которую
-          Оператор может получить о посетителях веб-сайта https://maxter.pro.
+          Оператор может получить о посетителях веб-сайта{" "}
+          <Link
+            className={`${line["line-link"]} font-bold`}
+            href="/"
+            data-replace="https://maxter.pro"
+          >
+            <span>https://maxter.pro</span>
+          </Link>
+          .
         </p>
 
-        <h3 className={`${styles["policy-title"]}`}>2. Основные понятия, используемые в Политике</h3>
+        <h3 className={`${styles["policy-title"]}`}>
+          2. Основные понятия, используемые в Политике
+        </h3>
         <p>
           2.1. Автоматизированная обработка персональных данных — обработка
           персональных данных с помощью средств вычислительной техники.
@@ -53,7 +64,15 @@ export default function PrivacyPolicy() {
         <p>
           2.3. Веб-сайт — совокупность графических и информационных материалов,
           а также программ для ЭВМ и баз данных, обеспечивающих их доступность в
-          сети интернет по сетевому адресу https://maxter.pro.
+          сети интернет по сетевому адресу{" "}
+          <Link
+            className={`${line["line-link"]} font-bold`}
+            href="/"
+            data-replace="https://maxter.pro"
+          >
+            <span>https://maxter.pro</span>
+          </Link>
+          .
         </p>
         <p>
           2.4. Информационная система персональных данных — совокупность
@@ -85,8 +104,15 @@ export default function PrivacyPolicy() {
         </p>
         <p>
           2.8. Персональные данные — любая информация, относящаяся прямо или
-          косвенно к определенному или определяемому Пользователю веб-сайта
-          <Link href="/">https://maxter.pro.</Link>
+          косвенно к определенному или определяемому Пользователю веб-сайта{" "}
+          <Link
+            className={`${line["line-link"]} font-bold`}
+            href="/"
+            data-replace="https://maxter.pro"
+          >
+            <span>https://maxter.pro</span>
+          </Link>
+          .
         </p>
         <p>
           2.9. Персональные данные, разрешенные субъектом персональных данных
@@ -99,7 +125,14 @@ export default function PrivacyPolicy() {
         </p>
         <p>
           2.10. Пользователь — любой посетитель веб-сайта{" "}
-          <Link href="/">https://maxter.pro.</Link>.
+          <Link
+            className={`${line["line-link"]} font-bold`}
+            href="/"
+            data-replace="https://maxter.pro"
+          >
+            <span>https://maxter.pro</span>
+          </Link>
+          .
         </p>
         <p>
           2.11. Предоставление персональных данных — действия, направленные на
@@ -129,7 +162,9 @@ export default function PrivacyPolicy() {
           материальные носители персональных данных.
         </p>
 
-        <h4 className={`${styles["policy-title"]}`}>3. Основные права и обязанности Оператора</h4>
+        <h4 className={`${styles["policy-title"]}`}>
+          3. Основные права и обязанности Оператора
+        </h4>
         <p>3.1. Оператор имеет право:</p>
         <ul>
           <li>
@@ -196,7 +231,9 @@ export default function PrivacyPolicy() {
           </li>
         </ul>
 
-        <h5 className={`${styles["policy-title"]}`}>4. Основные права и обязанности субъектов персональных данных</h5>
+        <h5 className={`${styles["policy-title"]}`}>
+          4. Основные права и обязанности субъектов персональных данных
+        </h5>
         <p>4.1. Субъекты персональных данных имеют право:</p>
 
         <ul>
@@ -253,7 +290,9 @@ export default function PrivacyPolicy() {
           РФ.
         </p>
 
-        <h6 className={`${styles["policy-title"]}`}>5. Принципы обработки персональных данных</h6>
+        <h6 className={`${styles["policy-title"]}`}>
+          5. Принципы обработки персональных данных
+        </h6>
         <p>
           5.1. Обработка персональных данных осуществляется на законной и
           справедливой основе.
@@ -298,7 +337,9 @@ export default function PrivacyPolicy() {
           предусмотрено федеральным законом.
         </p>
 
-        <h1 className={`${styles["policy-title"]}`}>6. Цели обработки персональных данных</h1>
+        <h1 className={`${styles["policy-title"]}`}>
+          6. Цели обработки персональных данных
+        </h1>
 
         <p>
           Цель обработки: информирование Пользователя посредством отправки
@@ -388,7 +429,9 @@ export default function PrivacyPolicy() {
           <li>Отправка информационных писем на адрес электронной почты</li>
         </ul>
 
-        <h2 className={`${styles["policy-title"]}`}>7. Условия обработки персональных данных</h2>
+        <h2 className={`${styles["policy-title"]}`}>
+          7. Условия обработки персональных данных
+        </h2>
         <p>
           7.1. Обработка персональных данных осуществляется с согласия субъекта
           персональных данных на обработку его персональных данных.
@@ -457,8 +500,15 @@ export default function PrivacyPolicy() {
         <p>
           8.3. В случае выявления неточностей в персональных данных,
           Пользователь может актуализировать их самостоятельно, путем
-          направления Оператору уведомление на адрес электронной почты Оператора
-          maxter24@yandex.ru с пометкой «Актуализация персональных данных».
+          направления Оператору уведомление на адрес электронной почты Оператора{" "}
+          <Link
+            className={`${line["line-link"]} font-bold`}
+            href="mailto:maxter24@yandex.ru"
+            data-replace="maxter24@yandex.ru"
+          >
+            <span>maxter24@yandex.ru</span>
+          </Link>{" "}
+          с пометкой «Актуализация персональных данных».
         </p>
         <p>
           8.4. Срок обработки персональных данных определяется достижением
@@ -467,8 +517,14 @@ export default function PrivacyPolicy() {
           может в любой момент отозвать свое согласие на обработку персональных
           данных, направив Оператору уведомление посредством электронной почты
           на электронный адрес Оператора{" "}
-          <Link href="mailto:maxter24@yandex.ru">maxter24@yandex.ru</Link> с
-          пометкой «Отзыв согласия на обработку персональных данных».
+          <Link
+            className={`${line["line-link"]} font-bold`}
+            href="mailto:maxter24@yandex.ru"
+            data-replace="maxter24@yandex.ru"
+          >
+            <span>maxter24@yandex.ru</span>
+          </Link>{" "}
+          с пометкой «Отзыв согласия на обработку персональных данных».
         </p>
         <p>
           8.5. Вся информация, которая собирается сторонними сервисами, в том
@@ -525,7 +581,9 @@ export default function PrivacyPolicy() {
           информационно-телекоммуникационным сетям или без таковой.
         </p>
 
-        <h5 className={`${styles["policy-title"]}`}>10. Трансграничная передача персональных данных</h5>
+        <h5 className={`${styles["policy-title"]}`}>
+          10. Трансграничная передача персональных данных
+        </h5>
         <p>
           10.1. Оператор до начала осуществления деятельности по трансграничной
           передаче персональных данных обязан уведомить уполномоченный орган по
@@ -541,7 +599,9 @@ export default function PrivacyPolicy() {
           передача персональных данных, соответствующие сведения.
         </p>
 
-        <h6 className={`${styles["policy-title"]}`}>11. Конфиденциальность персональных данных</h6>
+        <h6 className={`${styles["policy-title"]}`}>
+          11. Конфиденциальность персональных данных
+        </h6>
         <p>
           Оператор и иные лица, получившие доступ к персональным данным, обязаны
           не раскрывать третьим лицам и не распространять персональные данные
@@ -549,12 +609,20 @@ export default function PrivacyPolicy() {
           федеральным законом.
         </p>
 
-        <h1 className={`${styles["policy-title"]}`}>12. Заключительные положения</h1>
+        <h1 className={`${styles["policy-title"]}`}>
+          12. Заключительные положения
+        </h1>
         <p>
           12.1. Пользователь может получить любые разъяснения по интересующим
           вопросам, касающимся обработки его персональных данных, обратившись к
           Оператору с помощью электронной почты{" "}
-          <Link href="mailto:maxter24@yandex.ru">maxter24@yandex.ru.</Link>
+          <Link
+            className={`${line["line-link"]} font-bold`}
+            href="mailto:maxter24@yandex.ru"
+            data-replace="maxter24@yandex.ru"
+          >
+            <span>maxter24@yandex.ru</span>
+          </Link>
         </p>
         <p>
           12.2. В данном документе будут отражены любые изменения политики
@@ -564,7 +632,14 @@ export default function PrivacyPolicy() {
         <p>
           12.3. Актуальная версия Политики в свободном доступе расположена в
           сети Интернет по адресу{" "}
-          <Link href="/privacy-policy">https://maxter.pro/privacy-policy</Link>.
+          <Link
+            className={`${line["line-link"]} font-bold`}
+            href="/privacy-policy"
+            data-replace="https://maxter.pro/privacy-policy"
+          >
+            <span>https://maxter.pro/privacy-policy</span>
+          </Link>
+          .
         </p>
       </motion.div>
     </section>
