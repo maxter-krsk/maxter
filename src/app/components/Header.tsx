@@ -49,7 +49,7 @@ export default function Header() {
             size="grow"
             className="flex items-center justify-center text-center border-l-1 border-black"
           >
-            <Link href="/" className="uppercase">
+            <Link href="/" className="uppercase w-full h-full flex items-center justify-center">
               Оставить
               <br />
               заявку
