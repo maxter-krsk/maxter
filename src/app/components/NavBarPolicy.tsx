@@ -5,6 +5,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { PolicyTab } from "@/app/components/PolicyTab";
+import { AnimatePresence, motion } from "framer-motion";
 
 function a11y(idPrefix: string, index: number) {
   return {
@@ -34,27 +35,29 @@ export default function NavBarPolicy({
     }> => React.isValidElement(child) && child.type === PolicyTab
   );
 
-const tabSx = {
-  // ширина по колонке
-  minWidth: 0,
-  width: '100%',
+  const tabSx = {
+    minWidth: 0,
+    width: "100%",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    textAlign: "left",
+    textTransform: "none",
+    pl: 0,
+    pr: 3,
 
-  // убираем центрирование
-  justifyContent: 'flex-start',
-  alignItems: 'flex-start',
-  textAlign: 'left',
-  textTransform: 'none',
-  pl: 0,
-  pr: 3,
+    "& .MuiTab-wrapper": {
+      alignItems: "flex-start",
+      textAlign: "left",
+      width: "100%",
+      whiteSpace: "normal",
+      wordBreak: "break-word",
+    },
 
-  '& .MuiTab-wrapper': {
-    alignItems: 'flex-start',
-    textAlign: 'left',
-    width: '100%',
-    whiteSpace: 'normal',
-    wordBreak: 'break-word',
-  },
-};
+    "&.Mui-selected": {
+      color: "#423060",
+      fontWeight: "bold",
+    },
+  };
 
   return (
     <Box
@@ -62,7 +65,7 @@ const tabSx = {
         display: "grid",
         gridTemplateColumns: { xs: "1fr", md: "260px 1fr" },
         columnGap: 3,
-        minHeight: 400,
+		minHeight: 400,
       }}
     >
       <Tabs
@@ -71,7 +74,14 @@ const tabSx = {
         value={value}
         onChange={handleChange}
         aria-label={ariaLabel}
-        sx={{ borderRight: 1, borderColor: "divider" }}
+        sx={{
+          borderRight: 1,
+          borderColor: "black",
+          "& .MuiTabs-indicator": {
+            backgroundColor: "#423060",
+            width: 5,
+          },
+        }}
       >
         {tabs.map((tab, i) => (
           <Tab
@@ -83,21 +93,25 @@ const tabSx = {
         ))}
       </Tabs>
 
-      {tabs.map((tab, i) => {
-        const hidden = value !== i;
-        return (
-          <div
-            key={i}
-            role="tabpanel"
-            hidden={hidden}
-            id={`${idPrefix}-tabpanel-${i}`}
-            aria-labelledby={`${idPrefix}-tab-${i}`}
-            className="w-full"
-          >
-            {!hidden && <Box>{tab.props.children}</Box>}
-          </div>
-        );
-      })}
+      <AnimatePresence mode="wait">
+        {tabs.map((tab, i) =>
+          value === i ? (
+            <motion.div
+              key={i}
+              role="tabpanel"
+              id={`${idPrefix}-tabpanel-${i}`}
+              aria-labelledby={`${idPrefix}-tab-${i}`}
+              className="w-full"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <Box sx={{ py: 3, px: 0 }}>{tab.props.children}</Box>
+            </motion.div>
+          ) : null
+        )}
+      </AnimatePresence>
     </Box>
   );
 }

@@ -11,11 +11,8 @@ import { PolicyTab } from "@/app/components/PolicyTab";
 export default function PrivacyPolicy() {
   return (
     <section className={`${styles["policy-text"]}`}>
-      <motion.div
+      <div
         className="container"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
       >
         <h1
           className={`${unbounded.className} font-bold text-center my-20 text-[2.5rem]`}
@@ -696,7 +693,7 @@ export default function PrivacyPolicy() {
             </p>
           </PolicyTab>
         </NavBarPolicy>
-      </motion.div>
+      </div>
     </section>
   );
 }
