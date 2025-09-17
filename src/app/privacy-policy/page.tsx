@@ -53,7 +53,7 @@ export default function PrivacyPolicy() {
             </p>
           </PolicyTab>
 
-          <PolicyTab label="2. Основные понятия, используемые в Политикея">
+          <PolicyTab label="2. Основные понятия, используемые в Политике">
             <h3 className={`${styles["policy-title"]}`}>
               2. Основные понятия, используемые в Политике
             </h3>
