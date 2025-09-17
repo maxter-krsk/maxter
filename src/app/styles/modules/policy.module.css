@@ -1,0 +1,11 @@
+@reference "../../globals.css";
+
+.policy-title {
+  @apply text-[1.5rem] font-bold my-6
+}
+
+.policy-text,
+.policy-text p,
+.policy-text li {
+  @apply text-[1rem] leading-relaxed mb-3;
+}
