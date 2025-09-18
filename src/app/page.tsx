@@ -6,7 +6,7 @@ import { unbounded } from "./ui/fonts";
 export default function Home() {
   return (
     <div className="container">
-      <div className="border-l-1 border-r-1 border-b-1 border-black pb-20">
+      <div className="border border-black pb-20">
         <h1
           className={`${unbounded.className} pt-20 uppercase text-center font-black text-5xl`}
         >
