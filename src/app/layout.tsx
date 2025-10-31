@@ -1,21 +1,60 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { montserrat } from "@/app/components/ui/fonts";
 import "./globals.css";
+import Header from "@/app/components/shared/Header/Header";
+import Footer from "@/app/components/shared/Footer/Footer";
+import CookiesBanner from "@/app/components/ui/CookieBanner";
+import ScrollTop from "@/app/components/ui/ScrollToTop";
+import { ThemeProvider } from "next-themes";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Мета-данные
 
 export const metadata: Metadata = {
-  title: "Maxter - Digital-партнёр",
-  description:
-    "Мы не просто выполняем поставленные задачи, мы глубоко погружаемся в ваш бизнес, ищем нестандартные решения и предлагаем идеи, которые изменят правила игры.",
+  metadataBase: new URL("https://domain.ru"),
+  alternates: { canonical: "/" },
+
+  title: "Maxter - агентство коммуникаций",
+  description: "Описание сайта",
+
+  openGraph: {
+    title: "Maxter - агентство коммуникаций",
+    description: "Описание сайта для соц. сетей",
+    url: "https://domain.ru",
+    siteName: "Maxter - агентство коммуникаций",
+    images: [
+      {
+        url: "/og/og-img.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Превью сайта",
+      },
+    ],
+    locale: "ru_RU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Maxter - агентство коммуникаций",
+    description: "Описание сайта для соц. сетей",
+    images: ["/og/og-img.jpg"],
+  },
+
+  icons: {
+    icon: [
+      {
+        url: "/icons/favicons/favicon-light.png",
+        type: "image/png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/icons/favicons/favicon-dark.png",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+
+    apple: [{ url: "/icons/favicons/favicon-large.png", sizes: "180x180" }],
+  },
 };
 
 export default function RootLayout({
@@ -24,11 +63,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${montserrat.className} flex min-h-screen dark:bg-carbon flex-col overflow-x-hidden antialiased bg-paper`}
       >
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <CookiesBanner />
+          <ScrollTop />
+        </ThemeProvider>
       </body>
     </html>
   );
