@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import * as React from "react";
+import Link from "next/link";
 import { motion, Variants } from "motion/react";
 import { cn } from "@/lib/utils";
+import { usePageTransition } from "@/app/components/providers/TransitionProvider";
 
 type Props = {
   href: string;
@@ -22,6 +23,8 @@ export function HoverFlipNavLink({
   frontClassName,
   backClassName,
 }: Props) {
+  const { startTransition, isTransitioning } = usePageTransition();
+
   const hasTextSize = !!className?.match(/(^|\s)text(-\[|-[\w:]+)/);
 
   const containerV: Variants = {
@@ -39,9 +42,19 @@ export function HoverFlipNavLink({
     hover: { rotate: 0, originX: 0, originY: 0.5, transition: { duration } },
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (isTransitioning) {
+      e.preventDefault();
+      return;
+    }
+    e.preventDefault();
+    startTransition(href);
+  };
+
   return (
     <Link
       href={href}
+      onClick={handleClick}
       className={cn(
         "inline-flex items-center no-underline select-none cursor-pointer",
         hasTextSize ? "leading-none" : "text-20 leading-none",
@@ -59,8 +72,7 @@ export function HoverFlipNavLink({
           <motion.span
             variants={title1V}
             className={cn(
-              "block leading-none antialiased transform-gpu [transform:translateZ(0)]",
-              "text-carbon dark:text-paper",
+              "block leading-none antialiased transform-gpu [transform:translateZ(0)] text-carbon dark:text-paper",
               frontClassName
             )}
           >
@@ -70,8 +82,7 @@ export function HoverFlipNavLink({
           <motion.span
             variants={title2V}
             className={cn(
-              "block leading-none antialiased transform-gpu [transform:translateZ(0)]",
-              "text-carbon dark:text-toxic",
+              "block leading-none antialiased transform-gpu [transform:translateZ(0)] text-carbon dark:text-toxic",
               backClassName
             )}
           >

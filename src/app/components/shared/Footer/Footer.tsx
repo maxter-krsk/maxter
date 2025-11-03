@@ -48,7 +48,10 @@ export default function Footer() {
               <HoverFlipNavLink className="text-16" href="tel:+79230198369">
                 +7 (923) 019-83-69
               </HoverFlipNavLink>
-              <HoverFlipNavLink className="text-16" href="mailto:maxter24@yandex.ru">
+              <HoverFlipNavLink
+                className="text-16"
+                href="mailto:maxter24@yandex.ru"
+              >
                 maxter24@yandex.ru
               </HoverFlipNavLink>
             </div>
