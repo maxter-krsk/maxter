@@ -1,6 +1,5 @@
 "use client";
 
-import ThemeToggler from "@/lib/ui/ThemeToggler";
 import { Logo } from "@/app/components/ui/Logo";
 import { HoverFlipNavLink } from "@/components/animate-ui/components/buttons/link-flip";
 
@@ -33,12 +32,6 @@ export default function Footer() {
             <br />
             upgrade
           </span>
-          <ThemeToggler
-            system={false}
-            size="sm"
-            variant="default"
-            direction="ltr"
-          />
           <nav className="uppercase flex gap-40">
             <ul className="flex gap-40 uppercase font-bold text-16">
               {nav.items.map((item) => (
