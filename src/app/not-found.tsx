@@ -1,5 +1,4 @@
 import Image from "next/image";
-import ThemeToggler from "@/lib/ui/ThemeToggler";
 import { unbounded } from "@/app/components/ui/fonts";
 import {
   FlipButton,
@@ -11,12 +10,6 @@ export default function NotFound() {
   return (
     <section className="h-screen flex flex-col justify-center">
       <div className="container">
-        <ThemeToggler
-          variant="default"
-          size="default"
-          direction="ltr"
-          system={false}
-        />
         <div className="flex flex-col justify-center items-center uppercase gap-20 md:gap-50">
           <Image
             className="w-full h-auto"
