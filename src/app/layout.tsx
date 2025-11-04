@@ -3,8 +3,8 @@ import { roboto } from "@/app/components/ui/fonts";
 import "./globals.css";
 import Header from "@/app/components/shared/Header/Header";
 import Footer from "@/app/components/shared/Footer/Footer";
-import CookiesBanner from "@/app/components/ui/CookieBanner";
-import ScrollTop from "@/app/components/ui/ScrollToTop";
+import { CookiesBanner } from "@/app/components/ui/CookieBanner";
+import { ScrollTop } from "@/app/components/ui/ScrollToTop";
 import { ThemeProvider } from "next-themes";
 import { TransitionProvider } from "@/app/components/providers/TransitionProvider";
 
