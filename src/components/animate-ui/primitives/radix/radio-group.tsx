@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
-import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
+import * as React from "react";
+import { RadioGroup as RadioGroupPrimitive } from "radix-ui";
+import { AnimatePresence, motion, type HTMLMotionProps } from "motion/react";
 
-import { getStrictContext } from '@/lib/get-strict-context';
-import { useControlledState } from '@/hooks/use-controlled-state';
+import { getStrictContext } from "@/lib/get-strict-context";
+import { useControlledState } from "@/hooks/use-controlled-state";
 
 type RadioGroupContextType = {
   value: string;
@@ -18,10 +18,10 @@ type RadioGroupItemContextType = {
 };
 
 const [RadioGroupProvider, useRadioGroup] =
-  getStrictContext<RadioGroupContextType>('RadioGroupContext');
+  getStrictContext<RadioGroupContextType>("RadioGroupContext");
 
 const [RadioGroupItemProvider, useRadioGroupItem] =
-  getStrictContext<RadioGroupItemContextType>('RadioGroupItemContext');
+  getStrictContext<RadioGroupItemContextType>("RadioGroupItemContext");
 
 type RadioGroupProps = React.ComponentProps<typeof RadioGroupPrimitive.Root>;
 
@@ -45,12 +45,12 @@ function RadioGroup(props: RadioGroupProps) {
 
 type RadioGroupIndicatorProps = Omit<
   React.ComponentProps<typeof RadioGroupPrimitive.Indicator>,
-  'asChild' | 'forceMount'
+  "asChild" | "forceMount"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function RadioGroupIndicator({
-  transition = { type: 'spring', stiffness: 200, damping: 16 },
+  transition = { type: "spring", stiffness: 200, damping: 16 },
   ...props
 }: RadioGroupIndicatorProps) {
   const { isChecked } = useRadioGroupItem();
@@ -62,6 +62,7 @@ function RadioGroupIndicator({
           data-slot="radio-group-indicator"
           asChild
           forceMount
+          className="bg-carbon dark:bg-paper h-2.5 w-2.5 rounded-full"
         >
           <motion.div
             key="radio-group-indicator-circle"
@@ -80,9 +81,9 @@ function RadioGroupIndicator({
 
 type RadioGroupItemProps = Omit<
   React.ComponentProps<typeof RadioGroupPrimitive.Item>,
-  'asChild'
+  "asChild"
 > &
-  HTMLMotionProps<'button'>;
+  HTMLMotionProps<"button">;
 
 function RadioGroupItem({
   value: valueProps,

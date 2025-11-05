@@ -7,6 +7,7 @@ import { CookiesBanner } from "@/app/components/ui/CookieBanner";
 import { ScrollTop } from "@/app/components/ui/ScrollToTop";
 import { ThemeProvider } from "next-themes";
 import { TransitionProvider } from "@/app/components/providers/TransitionProvider";
+import { Toaster } from "@/lib/ui/sonner";
 
 // Мета-данные
 
@@ -77,6 +78,7 @@ export default function RootLayout({
             <ScrollTop />
           </ThemeProvider>
         </TransitionProvider>
+        <Toaster />
       </body>
     </html>
   );
