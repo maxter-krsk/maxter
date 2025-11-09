@@ -107,6 +107,7 @@ function RadioGroupItem({
         required={required}
       >
         <motion.button
+          className="cursor-pointer relative h-20 w-20 rounded-full border border-carbon dark:border-paper grid place-items-center data-[state=checked]:border-primary"
           data-slot="radio-group-item"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

@@ -9,13 +9,20 @@ const base = z.object({
     .min(2, "Минимум 2 символа")
     .max(50)
     .regex(/^[A-Za-zА-Яа-яЁё\s]+$/, "Только буквы и пробелы"),
-  businessName: z
+  company: z
     .string()
     .trim()
     .min(2, "Минимум 2 символа")
     .max(100)
     .regex(/^[A-Za-zА-Яа-яЁё\s]+$/, "Только буквы и пробелы"),
   businessDescription: z
+    .string()
+    .trim()
+    .min(2, "Минимум 2 символа")
+    .max(1000)
+    .regex(/^[A-Za-zА-Яа-яЁё\s]+$/, "Только буквы и пробелы"),
+  file: z.instanceof(File).optional(),
+  source: z
     .string()
     .trim()
     .min(2, "Минимум 2 символа")
@@ -28,6 +35,8 @@ export const formSchema = base
     contactMethod: z
       .enum(["telegram", "whatsapp", "email", "phone"])
       .optional(),
+
+    budget: z.enum(["<1", "2-4", "4-7", "7-15"]),
 
     telegramUsername: z.string().trim().optional(),
     whatsappPhone: z.string().trim().optional(),

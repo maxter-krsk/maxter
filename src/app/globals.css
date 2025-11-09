@@ -26,6 +26,7 @@
   --color-milk: #F5F5F5;
   --color-maxter: #423060;
   --color-lavanda: #B5A8C6;
+  --color-invalid: #B70101;
 
 
   /* Текст */
@@ -306,6 +307,20 @@
   --radius-100: 6.25rem;
   /* 100px */
 
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: var(--color-invalid);
+  box-shadow: none;
+}
+
+input,
+textarea,
+select {
+  border-color: var(--color-border, #21272A);
+  transition: border-color 0.2s ease;
 }
 
 .container {
