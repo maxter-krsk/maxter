@@ -1,9 +1,9 @@
+import Plug from "@/app/components/ui/Plug";
+
 export default function Home() {
   return (
     <section>
-      <div className="container uppercase text-center">
-        Главная страница
-      </div>
+      <Plug />
     </section>
   );
 }
