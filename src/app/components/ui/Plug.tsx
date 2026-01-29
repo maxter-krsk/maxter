@@ -1,107 +1,141 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 import { motion, useReducedMotion } from "motion/react";
 import {
   TypingText,
   TypingTextCursor,
 } from "@/components/animate-ui/primitives/texts/typing";
-import { MainForm } from "@/app/components/ui/Forms/MainForm";
-import { Separator } from "@/lib/ui/separator";
+import { cn } from "@/lib/utils";
 
-interface TypingTextDemoProps {
-  delay?: number;
+type PlugProps = {
+  title?: string;
+  subtitle?: string;
+  questionTail?: string;
+  qustionTail?: string;
+  className?: string;
+  lockScroll?: boolean;
+  typingSpeed?: number;
   holdDelay?: number;
-  loop?: boolean;
-  cursor?: boolean;
-}
+  children?: React.ReactNode;
+};
 
-export default function Plug({ cursor = true }: TypingTextDemoProps) {
-  const [phase, setPhase] = useState<"typing" | "closing" | "done">("typing");
-  const [step, setStep] = useState(0);
+const defaultTitle = "Скоро здесь будет новое";
+const defaultSubtitle = "Команда MAXTER уже работает над этой страницей.....";
+const defaultQuestionTail = "Но зачем ждать?";
+
+export default function Plug({
+  title = defaultTitle,
+  subtitle = defaultSubtitle,
+  questionTail,
+  qustionTail,
+  className,
+  lockScroll = true,
+  typingSpeed = 34,
+  holdDelay = 750,
+  children,
+}: PlugProps) {
+  const resolvedQuestionTail =
+    questionTail ?? qustionTail ?? defaultQuestionTail;
   const prefersReduced = useReducedMotion();
+  const [phase, setPhase] = React.useState<"typing" | "closing" | "done">(
+    "typing",
+  );
+
+  const titleDuration = (title.length + 1) * typingSpeed;
+  const subtitleDuration = (subtitle.length + 1) * typingSpeed;
+  const questionDuration = (resolvedQuestionTail.length + 1) * typingSpeed;
+  const subtitleDelay = titleDuration;
+  const questionDelay = titleDuration + subtitleDuration;
+
+  React.useEffect(() => {
+    if (!lockScroll || typeof document === "undefined") return;
+    const previousBody = document.body.style.overflow;
+    const previousHtml = document.documentElement.style.overflow;
+
+    if (phase !== "done") {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = previousBody;
+      document.documentElement.style.overflow = previousHtml;
+    }
+
+    return () => {
+      document.body.style.overflow = previousBody;
+      document.documentElement.style.overflow = previousHtml;
+    };
+  }, [lockScroll, phase]);
+
+  React.useEffect(() => {
+    const totalDuration = prefersReduced
+      ? 0
+      : titleDuration + subtitleDuration + questionDuration + holdDelay;
+
+    setPhase("typing");
+    const timer = window.setTimeout(() => {
+      setPhase("closing");
+    }, totalDuration);
+
+    return () => window.clearTimeout(timer);
+  }, [
+    prefersReduced,
+    titleDuration,
+    subtitleDuration,
+    questionDuration,
+    holdDelay,
+  ]);
 
   return (
-    <section className="relative min-h-screen">
+    <section className={cn("relative min-h-screen w-full", className)}>
+      {children ? (
+        <div
+          className={cn(
+            "min-h-screen transition-opacity duration-500",
+            phase === "done" ? "opacity-100" : "opacity-0",
+          )}
+        >
+          {children}
+        </div>
+      ) : null}
+
       {phase !== "done" && (
         <motion.div
-          className="fixed inset-0 z-50 bg-carbon text-white overflow-hidden container"
+          className="fixed inset-0 z-50 bg-carbon text-paper overflow-hidden"
           initial={{ y: 0 }}
           animate={{ y: phase === "closing" ? "-100%" : 0 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
           onAnimationComplete={() => {
             if (phase === "closing") setPhase("done");
           }}
         >
-          <div className="mx-auto max-w-screen h-full px-6 md:px-10 flex items-center">
-            <div className="flex flex-col gap-40">
-              <div className="space-y-8">
-                {step >= 0 && (
-                  <TypingText
-                    text="СКОРО ЗДЕСЬ БУДЕТ НОВОЕ"
-                    duration={60}
-                    inView
-                    onFinish={() => setStep(1)}
-                    className="block text-46 font-unbounded font-medium"
-                  >
-                    {cursor && (
-                      <TypingTextCursor className="!h-44 !w-1 rounded-full ml-1" />
-                    )}
+          <div className="container h-screen">
+            <div className="h-full w-full flex items-center">
+              <div className="relative flex flex-col">
+                <h1 className="text-46 font-medium uppercase mb-40 font-unbounded">
+                  <TypingText text={title} duration={typingSpeed}>
+                    <TypingTextCursor style={{ height: "1em", width: "2px" }} />
                   </TypingText>
-                )}
-              </div>
-
-              {step >= 1 && (
-                <TypingText
-                  text="КОМАНДА MAXTER УЖЕ РАБОТАЕТ НАД ЭТОЙ СТРАНИЦЕЙ....."
-                  duration={60}
-                  inView
-                  onFinish={() => setStep(2)}
-                  className="block text-46 font-unbounded font-light w-full"
-                >
-                  {cursor && (
-                    <TypingTextCursor className="!h-44 !w-1 rounded-full ml-1" />
-                  )}
-                </TypingText>
-              )}
-
-              <div className="flex items-center md:items-end justify-end text-right">
-                {step >= 2 && (
+                </h1>
+                <p className="text-46 mb-40 font-light uppercase font-unbounded">
                   <TypingText
-                    text="НО ЗАЧЕМ ЖДАТЬ?"
-                    duration={70}
-                    inView
-                    onFinish={() => setTimeout(() => setPhase("closing"), 800)}
-                    className="block text-46 font-unbounded font-light"
-                  >
-                    {cursor && (
-                      <TypingTextCursor className="!h-44 !w-1 rounded-full ml-1" />
-                    )}
-                  </TypingText>
-                )}
+                    text={subtitle}
+                    duration={typingSpeed}
+                    delay={subtitleDelay}
+                  />
+                </p>
+                <p className="ml-auto text-46 font-light uppercase font-unbounded">
+                  <TypingText
+                    text={resolvedQuestionTail}
+                    duration={typingSpeed}
+                    delay={questionDelay}
+                  />
+                </p>
               </div>
             </div>
           </div>
         </motion.div>
       )}
-
-      {/* Основной контент — появится после закрытия занавеса */}
-      <motion.div
-        className="container mx-auto py-12"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: phase === "done" ? 1 : 0 }}
-        transition={{ duration: prefersReduced ? 0 : 0.5 }}
-      >
-        <h1 className="uppercase font-unbounded font-medium text-46 text-carbon dark:text-paper mb-20">
-          Заполните анкету, чтобы обсудить проект
-        </h1>
-        <p className="mb-40">
-          Мы принимаем на себя обязательство о том, что коммерческая информация,
-          полученная в рамках подготовки и реализации проекта, является
-          конфиденциальной и не подлежит разглашению или передаче третьим лицам.
-        </p>
-        <Separator className="w-full h-1 bg-carbon dark:bg-paper mb-40" />
-        <MainForm />
-      </motion.div>
     </section>
   );
 }

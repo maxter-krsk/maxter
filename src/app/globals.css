@@ -6,16 +6,18 @@
 
   /* Брейкпоинты */
 
+  --breakpoint-xs: 22.5rem;
+  /* 360px  */
   --breakpoint-sm: 40rem;
-  /* 640  */
-  --breakpoint-xs: 36rem;
-  /* 576px */
+  /* 640px */
   --breakpoint-md: 48rem;
   /* 768px  */
   --breakpoint-lg: 64rem;
   /* 1024px */
-  --breakpoint-desk: 96rem;
-  /* 1536 */
+  --breakpoint-xl: 80rem;
+  /* 1280px */
+  --breakpoint-desk: 92.5rem;
+  /* 1480px */
 
   /* Цвета */
 
@@ -309,6 +311,14 @@
 
 }
 
+.font-roboto {
+  font-family: var(--font-roboto), sans-serif;
+}
+
+.font-unbounded {
+  font-family: var(--font-unbounded), sans-serif;
+}
+
 input[aria-invalid="true"],
 textarea[aria-invalid="true"],
 select[aria-invalid="true"] {
@@ -324,7 +334,7 @@ select {
 }
 
 .container {
-  max-width: 96rem;
+  max-width: 92.5rem;
   padding-left: 2rem;
   padding-right: 2rem;
   margin: 0 auto;
@@ -337,7 +347,7 @@ select {
   }
 }
 
-@media(max-width: 640px) {
+@media (max-width: 640px) {
   .container {
     padding-left: 1rem;
     padding-right: 1rem;

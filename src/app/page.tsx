@@ -1,9 +1,9 @@
-import Plug from "@/app/components/ui/Plug";
-
 export default function Home() {
   return (
     <section>
-      <Plug />
+      <div className="container">
+        <h1>Главная страница</h1>
+      </div>
     </section>
   );
 }

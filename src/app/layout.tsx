@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { roboto } from "@/app/components/ui/fonts";
+import { roboto, unbounded } from "@/app/components/ui/fonts";
 import "./globals.css";
 import Header from "@/app/components/shared/Header/Header";
 import Footer from "@/app/components/shared/Footer/Footer";
 import { CookiesBanner } from "@/app/components/ui/CookieBanner";
 import { ScrollTop } from "@/app/components/ui/ScrollToTop";
+import { PageTransitionCurtains } from "@/app/components/ui/PageTransitionCurtains";
 import { ThemeProvider } from "next-themes";
-import { TransitionProvider } from "@/app/components/providers/TransitionProvider";
 import { Toaster } from "@/lib/ui/sonner";
 
 // Мета-данные
@@ -67,17 +67,16 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${roboto.className} flex min-h-screen dark:bg-carbon flex-col overflow-x-hidden antialiased bg-paper`}
+        className={`${roboto.className} ${roboto.variable} ${unbounded.variable} flex min-h-screen dark:bg-carbon flex-col overflow-x-hidden antialiased bg-paper`}
       >
-        <TransitionProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <PageTransitionCurtains />
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
             <CookiesBanner />
             <ScrollTop />
           </ThemeProvider>
-        </TransitionProvider>
         <Toaster />
       </body>
     </html>

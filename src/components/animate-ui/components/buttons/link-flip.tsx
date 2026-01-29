@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion, Variants } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import { cn } from "@/lib/utils";
-import { usePageTransition } from "@/app/components/providers/TransitionProvider";
+
+type FlipDirection = "top" | "bottom" | "left" | "right";
 
 type Props = {
   href: string;
@@ -12,82 +13,124 @@ type Props = {
   duration?: number;
   frontClassName?: string;
   backClassName?: string;
+  from?: FlipDirection;
   children: React.ReactNode;
 };
+
+const buildVariant = ({
+  opacity,
+  rotation,
+  offset,
+  isVertical,
+  rotateAxis,
+}: {
+  opacity: number;
+  rotation: number;
+  offset: string | null;
+  isVertical: boolean;
+  rotateAxis: string;
+}) => ({
+  opacity,
+  [rotateAxis]: rotation,
+  ...(isVertical && offset !== null ? { y: offset } : {}),
+  ...(!isVertical && offset !== null ? { x: offset } : {}),
+});
 
 export function HoverFlipNavLink({
   href,
   className,
-  children,
-  duration = 0.4,
+  duration = 0.35,
   frontClassName,
   backClassName,
+  from = "top",
+  children,
 }: Props) {
-  const { startTransition, isTransitioning } = usePageTransition();
+  const isVertical = from === "top" || from === "bottom";
+  const rotateAxis = isVertical ? "rotateX" : "rotateY";
+  const frontOffset = from === "top" || from === "left" ? "50%" : "-50%";
+  const backOffset = from === "top" || from === "left" ? "-50%" : "50%";
+  const frontRotation = from === "top" || from === "left" ? 90 : -90;
+  const backRotation = -frontRotation;
 
-  const hasTextSize = !!className?.match(/(^|\s)text(-\[|-[\w:]+)/);
-
-  const containerV: Variants = {
-    rest: { y: "0em", transition: { duration } },
-    hover: { y: "-1em", transition: { duration } },
+  const frontVariants: Variants = {
+    initial: buildVariant({
+      opacity: 1,
+      rotation: 0,
+      offset: "0%",
+      isVertical,
+      rotateAxis,
+    }),
+    hover: buildVariant({
+      opacity: 0,
+      rotation: frontRotation,
+      offset: frontOffset,
+      isVertical,
+      rotateAxis,
+    }),
   };
 
-  const title1V: Variants = {
-    rest: { rotate: 0, originX: 1, originY: 0.5, transition: { duration } },
-    hover: { rotate: 20, originX: 1, originY: 0.5, transition: { duration } },
-  };
-
-  const title2V: Variants = {
-    rest: { rotate: 20, originX: 0, originY: 0.5, transition: { duration } },
-    hover: { rotate: 0, originX: 0, originY: 0.5, transition: { duration } },
-  };
-
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (isTransitioning) {
-      e.preventDefault();
-      return;
-    }
-    e.preventDefault();
-    startTransition(href);
+  const backVariants: Variants = {
+    initial: buildVariant({
+      opacity: 0,
+      rotation: backRotation,
+      offset: backOffset,
+      isVertical,
+      rotateAxis,
+    }),
+    hover: buildVariant({
+      opacity: 1,
+      rotation: 0,
+      offset: "0%",
+      isVertical,
+      rotateAxis,
+    }),
   };
 
   return (
     <Link
       href={href}
-      onClick={handleClick}
       className={cn(
         "inline-flex items-center no-underline select-none cursor-pointer",
-        hasTextSize ? "leading-none" : "text-20 leading-none",
-        className
+        className,
       )}
     >
       <motion.span
-        initial="rest"
-        animate="rest"
+        className="relative inline-grid place-items-center"
+        style={{ perspective: "900px" }}
+        initial="initial"
         whileHover="hover"
-        className="relative overflow-hidden p-0"
-        style={{ height: "1em" }}
       >
-        <motion.span variants={containerV} className="block">
-          <motion.span
-            variants={title1V}
-            className={cn(
-              "block leading-none antialiased transform-gpu [transform:translateZ(0)] text-carbon dark:text-paper",
-              frontClassName
-            )}
-          >
-            {children}
-          </motion.span>
-
-          <motion.span
-            variants={title2V}
-            className={cn(
-              "block leading-none antialiased transform-gpu [transform:translateZ(0)] text-carbon dark:text-toxic",
-              backClassName
-            )}
-          >
-            {children}
-          </motion.span>
+        <motion.span
+          className={cn(
+            "inline-flex items-center justify-center text-current",
+            frontClassName,
+          )}
+          style={{
+            gridArea: "1 / 1",
+            backfaceVisibility: "hidden",
+            transformStyle: "preserve-3d",
+            willChange: "transform, opacity",
+          }}
+          transition={{ duration, ease: "easeOut" }}
+          variants={frontVariants}
+        >
+          {children}
+        </motion.span>
+        <motion.span
+          className={cn(
+            "inline-flex items-center justify-center text-current",
+            backClassName,
+          )}
+          style={{
+            gridArea: "1 / 1",
+            backfaceVisibility: "hidden",
+            transformStyle: "preserve-3d",
+            willChange: "transform, opacity",
+          }}
+          transition={{ duration, ease: "easeOut" }}
+          variants={backVariants}
+        >
+          {children}
         </motion.span>
       </motion.span>
     </Link>
