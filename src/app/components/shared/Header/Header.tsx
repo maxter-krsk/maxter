@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Burger } from "./Burger";
 import ThemeToggler from "@/lib/ui/ThemeToggler";
 import { Navigation } from "./Navigation";
 import { SocialLinks } from "./SocialLinks";
@@ -9,11 +10,12 @@ export default function Header() {
   return (
     <header className="mt-20">
       <div className="container">
-        <div className="flex items-stretch border border-carbon divide-x divide-carbon">
+        {/* Desktop */}
+        <div className="hidden lg:flex items-stretch border border-carbon divide-x divide-carbon">
           <div className="flex items-center p-20 shrink-0">
             <Link href="/">
               <Image
-              className="w-120 h-50"
+                className="w-120 h-50"
                 src="/icons/logos/maxter-dark.svg"
                 alt="Логотип Maxter"
                 width="121"
@@ -38,6 +40,20 @@ export default function Header() {
               system={false}
             />
           </div>
+        </div>
+
+        {/* Mobile */}
+        <div className="flex lg:hidden justify-between items-center">
+          <Link href="/">
+            <Image
+              className="w-120 h-50"
+              src="/icons/logos/maxter-dark.svg"
+              alt="Логотип Maxter"
+              width="121"
+              height="50"
+            />
+          </Link>
+          <Burger />
         </div>
       </div>
     </header>
