@@ -20,8 +20,13 @@
   /* Цвета */
 
   --color-paper: #D9D9D9;
+  --color-ash: #616161;
   --color-carbon: #21272A;
   --color-toxic: #A7FF00;
+  --color-milk: #F5F5F5;
+  --color-maxter: #423060;
+  --color-lavanda: #B5A8C6;
+  --color-invalid: #B70101;
 
 
   /* Текст */
@@ -118,6 +123,54 @@
   /* 98px */
   --text-100: 6.25rem;
   /* 100px */
+
+  /* Межстрочные интервалы */
+
+  --leading-10: 0.75rem;
+  /* 12px */
+  --leading-12: 0.875rem;
+  /* 14px */
+  --leading-14: 1rem;
+  /* 16px */
+  --leading-16: 1.125rem;
+  /* 18px */
+  --leading-18: 1.25rem;
+  /* 20px */
+  --leading-20: 1.375rem;
+  /* 22px */
+  --leading-22: 1.5rem;
+  /* 24px */
+  --leading-24: 1.625rem;
+  /* 26px */
+  --leading-26: 1.75rem;
+  /* 28px */
+  --leading-28: 1.875rem;
+  /* 30px */
+  --leading-30: 2rem;
+  /* 32px */
+  --leading-32: 2.25rem;
+  /* 36px */
+  --leading-36: 2.5rem;
+  /* 40px */
+  --leading-40: 2.75rem;
+  /* 44px */
+  --leading-44: 3rem;
+  /* 48px */
+  --leading-48: 3.25rem;
+  /* 52px */
+  --leading-56: 3.5rem;
+  /* 56px */
+  --leading-64: 4rem;
+  /* 64px */
+
+  /* Межбуквенные интервалы */
+
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
 
   /* Отступы */
 
@@ -254,6 +307,20 @@
   --radius-100: 6.25rem;
   /* 100px */
 
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: var(--color-invalid);
+  box-shadow: none;
+}
+
+input,
+textarea,
+select {
+  border-color: var(--color-border, #21272A);
+  transition: border-color 0.2s ease;
 }
 
 .container {

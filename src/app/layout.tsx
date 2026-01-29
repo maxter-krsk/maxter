@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { montserrat } from "@/app/components/ui/fonts";
+import { roboto } from "@/app/components/ui/fonts";
 import "./globals.css";
 import Header from "@/app/components/shared/Header/Header";
 import Footer from "@/app/components/shared/Footer/Footer";
-import CookiesBanner from "@/app/components/ui/CookieBanner";
-import ScrollTop from "@/app/components/ui/ScrollToTop";
+import { CookiesBanner } from "@/app/components/ui/CookieBanner";
+import { ScrollTop } from "@/app/components/ui/ScrollToTop";
 import { ThemeProvider } from "next-themes";
+import { TransitionProvider } from "@/app/components/providers/TransitionProvider";
+import { Toaster } from "@/lib/ui/sonner";
 
 // Мета-данные
 
@@ -65,15 +67,18 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${montserrat.className} flex min-h-screen dark:bg-carbon flex-col overflow-x-hidden antialiased bg-paper`}
+        className={`${roboto.className} flex min-h-screen dark:bg-carbon flex-col overflow-x-hidden antialiased bg-paper`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CookiesBanner />
-          <ScrollTop />
-        </ThemeProvider>
+        <TransitionProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <CookiesBanner />
+            <ScrollTop />
+          </ThemeProvider>
+        </TransitionProvider>
+        <Toaster />
       </body>
     </html>
   );

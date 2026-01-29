@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function ScrollTop() {
+export function ScrollTop() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

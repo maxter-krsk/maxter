@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { motion, type HTMLMotionProps, type Variant } from "motion/react";
+import { clsx } from "clsx";
 
 import { getStrictContext } from "@/lib/get-strict-context";
 import {
@@ -83,6 +84,7 @@ function FlipButtonFront({
   transition = { type: "spring", stiffness: 280, damping: 20 },
   asChild = false,
   style,
+  className,
   ...props
 }: FlipButtonFaceProps) {
   const { from, isVertical, rotateAxis } = useFlipButton();
@@ -106,6 +108,9 @@ function FlipButtonFront({
     }),
   };
 
+  const baseFront =
+    "w-full border border-carbon bg-carbon text-paper dark:border-paper dark:bg-transparent";
+
   const Component = asChild ? Slot : motion.span;
 
   return (
@@ -113,18 +118,17 @@ function FlipButtonFront({
       data-slot="flip-button-front"
       variants={frontVariants}
       transition={transition}
+      {...props}
+      className={clsx(baseFront, className)}
       style={{
         gridArea: "1 / 1",
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
         textTransform: "uppercase",
-        borderStyle: "solid",
-        borderWidth: "1px",
-        borderColor: "#21272A",
+        cursor: "pointer",
         ...style,
       }}
-      {...props}
     />
   );
 }
@@ -133,6 +137,7 @@ function FlipButtonBack({
   transition = { type: "spring", stiffness: 280, damping: 20 },
   asChild = false,
   style,
+  className,
   ...props
 }: FlipButtonFaceProps) {
   const { from, isVertical, rotateAxis } = useFlipButton();
@@ -158,19 +163,21 @@ function FlipButtonBack({
 
   const Component = asChild ? Slot : motion.span;
 
+  const baseBack =
+    "border border-carbon bg-transparent text-carbon dark:border-paper dark:bg-toxic";
+
   return (
     <Component
       data-slot="flip-button-back"
       variants={backVariants}
-      transition={transition}
+      className={clsx(baseBack, className)}
       style={{
         gridArea: "1 / 1",
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
         textTransform: "uppercase",
-        backgroundColor: "D9D9D9",
-        borderColor: "#fff",
+        cursor: "pointer",
         ...style,
       }}
       {...props}

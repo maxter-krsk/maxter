@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const CONSENT_COOKIE = "cookie-consent=true";
 const COOKIE_MAX_AGE_DAYS = 6;
 
-export default function CookiesBanner() {
+export function CookiesBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
