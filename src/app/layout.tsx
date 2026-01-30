@@ -67,16 +67,16 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${roboto.className} ${roboto.variable} ${unbounded.variable} flex min-h-screen dark:bg-carbon flex-col overflow-x-hidden antialiased bg-paper`}
+        className={`${roboto.className} ${roboto.variable} ${unbounded.variable} flex min-h-screen text-carbon dark:text-paper dark:bg-carbon flex-col overflow-x-hidden antialiased bg-paper`}
       >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <PageTransitionCurtains />
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <CookiesBanner />
-            <ScrollTop />
-          </ThemeProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <PageTransitionCurtains />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <CookiesBanner />
+          <ScrollTop />
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>
