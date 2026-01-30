@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, type FormData } from "@/lib/validation/form-schema";
@@ -9,19 +8,14 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/lib/ui/form";
 import { Input } from "@/lib/ui/input";
 import { Textarea } from "@/lib/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/lib/ui/select";
+import { DiagonalFill } from "@/lib/ui/DiagonalFill";
 import { cn } from "@/lib/utils";
+import { Separator } from "@/lib/ui/separator";
+import { Checkbox } from "@/components/animate-ui/components/radix/checkbox";
 
 const budgets = [
   { value: "<1", label: "МЕНЕЕ 1 МЛН" },
@@ -37,7 +31,11 @@ const contactOptions = [
   { value: "max", label: "MAX" },
 ];
 
-export function ProjectForm() {
+type Props = {
+  className?: string;
+};
+
+export function ProjectForm({ className }: Props) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,15 +62,14 @@ export function ProjectForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-10"
+        className={cn("flex flex-col", className)}
       >
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-20 md:grid-cols-2 mb-40">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Имя*</FormLabel>
                 <FormControl>
                   <Input placeholder="Имя*" {...field} />
                 </FormControl>
@@ -85,7 +82,6 @@ export function ProjectForm() {
             name="company"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Компания*</FormLabel>
                 <FormControl>
                   <Input placeholder="Компания*" {...field} />
                 </FormControl>
@@ -99,8 +95,10 @@ export function ProjectForm() {
           control={form.control}
           name="businessDescription"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>О проекте*</FormLabel>
+            <FormItem className="mb-40">
+              <h3 className="mb-20 uppercase text-22 font-unbounded">
+                О проекте*
+              </h3>
               <FormControl>
                 <Textarea
                   placeholder="Расскажите о вашем проекте*"
@@ -119,9 +117,16 @@ export function ProjectForm() {
           render={({ field }) => {
             const { onChange, value, ...rest } = field;
             return (
-              <FormItem>
-                <FormLabel>Прикрепить файл</FormLabel>
-                <FormControl>
+              <FormItem className="flex justify-between mb-40">
+                <ul className="space-y-10 font-light text-14">
+                  <li>1. Из какой вы компании, чем она занимается?</li>
+                  <li>
+                    2. С чем мы можем помочь? Как представляете результат?
+                  </li>
+                  <li>3. На какой срок работы и бюджет рассчитываете?</li>
+                  <li>4. Напишите, если удобнее общаться в мессенджере.</li>
+                </ul>
+                <FormControl className="cursor-pointer">
                   <Input
                     type="file"
                     onChange={(e) => onChange(e.target.files?.[0])}
@@ -139,9 +144,11 @@ export function ProjectForm() {
           name="budget"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Бюджет*</FormLabel>
+              <h6 className="mb-20 uppercase text-22 font-unbounded">
+                Бюджет*
+              </h6>
               <FormControl>
-                <div className="grid gap-3 sm:grid-cols-4">
+                <div className="grid gap-3 sm:grid-cols-4 mb-40">
                   {budgets.map((item) => {
                     const active = field.value === item.value;
                     return (
@@ -162,6 +169,7 @@ export function ProjectForm() {
                   })}
                 </div>
               </FormControl>
+              <Separator className="w-full bg-carbon mb-40" />
               <FormMessage />
             </FormItem>
           )}
@@ -172,21 +180,29 @@ export function ProjectForm() {
           name="contactMethod"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Способ связи*</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Выберите способ связи" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
+              <h5 className="mb-20 uppercase text-22 font-unbounded">
+                Способ связи*
+              </h5>
+              <FormControl>
+                <div className="grid gap-12 sm:grid-cols-2 mb-40">
                   {contactOptions.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
+                    <label
+                      key={opt.value}
+                      className="flex items-center gap-10 text-14 cursor-pointer"
+                    >
+                      <Checkbox
+                        checked={field.value === opt.value}
+                        onCheckedChange={(checked) =>
+                          field.onChange(checked ? opt.value : undefined)
+                        }
+                        size="lg"
+                        className="border-carbon dark:border-paper w-20 h-20 rounded-full"
+                      />
+                      <span>{opt.label}</span>
+                    </label>
                   ))}
-                </SelectContent>
-              </Select>
+                </div>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -197,10 +213,9 @@ export function ProjectForm() {
             control={form.control}
             name="telegramUsername"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telegram username*</FormLabel>
+              <FormItem className="mb-40 w-[50%]">
                 <FormControl>
-                  <Input placeholder="@username" {...field} />
+                  <Input placeholder="@username*" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -213,14 +228,9 @@ export function ProjectForm() {
             control={form.control}
             name="phone"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Телефон*</FormLabel>
+              <FormItem className="mb-40 w-[50%]">
                 <FormControl>
-                  <Input
-                    type="tel"
-                    placeholder="+7 (999) 123-45-67"
-                    {...field}
-                  />
+                  <Input type="tel" placeholder="Телефон*" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -233,10 +243,9 @@ export function ProjectForm() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>E-mail*</FormLabel>
+              <FormItem className="mb-40 w-[50%]">
                 <FormControl>
-                  <Input type="email" placeholder="name@email.com" {...field} />
+                  <Input type="email" placeholder="E-mail*" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -249,12 +258,11 @@ export function ProjectForm() {
             control={form.control}
             name="maxContact"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>MAX (номер телефона)*</FormLabel>
+              <FormItem className="mb-40 w-[50%]">
                 <FormControl>
                   <Input
                     type="tel"
-                    placeholder="+7 (999) 123-45-67"
+                    placeholder="MAX (номер телефона)*"
                     {...field}
                   />
                 </FormControl>
@@ -268,8 +276,10 @@ export function ProjectForm() {
           control={form.control}
           name="source"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Откуда вы узнали о нас?*</FormLabel>
+            <FormItem className="mb-40">
+              <h1 className="mb-20 uppercase text-22 font-unbounded">
+                Откуда вы узнали о нас?*
+              </h1>
               <FormControl>
                 <Input placeholder="Ваш ответ" {...field} />
               </FormControl>
@@ -278,12 +288,12 @@ export function ProjectForm() {
           )}
         />
 
-        <button
+        <DiagonalFill
           type="submit"
-          className="border border-carbon dark:border-paper bg-carbon text-paper dark:bg-paper dark:text-carbon py-4 uppercase font-unbounded text-14"
+          className="cursor-pointer border border-carbon dark:border-paper py-16 px-10 w-full"
         >
           Начать проект
-        </button>
+        </DiagonalFill>
       </form>
     </Form>
   );
