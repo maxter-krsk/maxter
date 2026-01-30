@@ -1,0 +1,79 @@
+.btnFillDiagonal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-transform: uppercase;
+  color: var(--color-carbon);
+}
+
+.btnFillDiagonal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-carbon);
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+  transition-property: clip-path;
+  transition-duration: 0.9s;
+  transition-timing-function: cubic-bezier(0.16, 0.84, 0.22, 1);
+  z-index: 0;
+}
+
+.btnFillDiagonal:hover::before,
+.btnFillDiagonal:focus-visible::before {
+  clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+}
+
+.btnFillDiagonalLabelBase,
+.btnFillDiagonalLabelHover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: clip-path 0.9s cubic-bezier(0.16, 0.84, 0.22, 1);
+  will-change: clip-path;
+  pointer-events: none;
+}
+
+.btnFillDiagonalLabelBase {
+  color: var(--color-carbon);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  z-index: 1;
+}
+
+.btnFillDiagonalLabelHover {
+  color: var(--color-paper);
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+  z-index: 2;
+}
+
+.btnFillDiagonal:hover .btnFillDiagonalLabelHover,
+.btnFillDiagonal:focus-visible .btnFillDiagonalLabelHover {
+  clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+}
+
+.btnFillDiagonal:hover .btnFillDiagonalLabelBase,
+.btnFillDiagonal:focus-visible .btnFillDiagonalLabelBase {
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+}
+
+:global(.dark) .btnFillDiagonal {
+  color: var(--color-paper);
+}
+
+:global(.dark) .btnFillDiagonal::before {
+  background: var(--color-toxic);
+}
+
+:global(.dark) .btnFillDiagonalLabelHover {
+  color: var(--color-carbon);
+}
+
+:global(.dark) .btnFillDiagonalLabelBase {
+  color: var(--color-paper);
+}

@@ -1,0 +1,90 @@
+.socialGrid {
+  width: 6rem;
+  grid-template-columns: 3rem 3rem;
+}
+
+.socialLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.socialLink::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-carbon);
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+  transition-property: clip-path;
+  transition-duration: 0.9s;
+  transition-timing-function: cubic-bezier(0.16, 0.84, 0.22, 1);
+  z-index: 0;
+}
+
+.socialLink:hover::before,
+.socialLink:focus-visible::before {
+  clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+}
+
+.iconWrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: clip-path 0.9s cubic-bezier(0.16, 0.84, 0.22, 1);
+  will-change: clip-path;
+  pointer-events: none;
+}
+
+.iconImg {
+  pointer-events: none;
+}
+
+.iconWrapBase {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  z-index: 1;
+}
+
+.iconWrapHover {
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+  z-index: 2;
+}
+
+.socialLink:hover .iconWrapHover,
+.socialLink:focus-visible .iconWrapHover {
+  clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+}
+
+.socialLink:hover .iconWrapBase,
+.socialLink:focus-visible .iconWrapBase {
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+}
+
+:global(.dark) .iconWrapBase {
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+  z-index: 2;
+}
+
+:global(.dark) .iconWrapHover {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  z-index: 1;
+}
+
+:global(.dark) .socialLink:hover .iconWrapHover,
+:global(.dark) .socialLink:focus-visible .iconWrapHover {
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+}
+
+:global(.dark) .socialLink:hover .iconWrapBase,
+:global(.dark) .socialLink:focus-visible .iconWrapBase {
+  clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+}
+
+:global(.dark) .socialLink::before {
+  background: var(--color-toxic);
+}

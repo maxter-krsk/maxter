@@ -1,0 +1,44 @@
+.sheet {
+  background: var(--color-paper);
+  color: var(--color-carbon);
+  border-left: 1px solid;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+:global([data-slot="sheet-content"] [data-slot="sheet-close"]) {
+  display: none;
+}
+
+.sheet[data-state="open"] {
+  clip-path: polygon(100% 0%, 100% 0%, 100% 0%, 100% 0%);
+  animation: burgerReveal 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.sheet[data-state="closed"] {
+  animation: burgerHide 0.35s ease forwards;
+}
+
+@keyframes burgerReveal {
+  from {
+    clip-path: polygon(100% 0%, 100% 0%, 100% 0%, 100% 0%);
+  }
+  to {
+    clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 100% 100%);
+  }
+}
+
+@keyframes burgerHide {
+  from {
+    clip-path: polygon(100% 0%, 0% 0%, 0% 100%, 100% 100%);
+  }
+  to {
+    clip-path: polygon(100% 0%, 100% 0%, 100% 0%, 100% 0%);
+  }
+}
+
+:global(.dark) .sheet {
+  background: var(--color-carbon);
+  color: var(--color-paper);
+  border-left-color: var(--color-paper);
+}
