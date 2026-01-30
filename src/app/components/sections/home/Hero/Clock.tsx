@@ -22,5 +22,9 @@ export function Clock() {
     return () => window.clearInterval(id);
   }, []);
 
-  return <span className="text-100 font-unbounded font-light">{time}</span>;
+  return (
+    <span className="text-60 md:text-80 lg:text-100 font-unbounded font-light dark:text-paper">
+      {time}
+    </span>
+  );
 }
