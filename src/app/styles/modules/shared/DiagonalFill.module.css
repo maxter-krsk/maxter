@@ -1,34 +1,35 @@
-.btnFillDiagonal {
+.diagonalFill {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   text-transform: uppercase;
   color: var(--color-carbon);
 }
 
-.btnFillDiagonal::before {
+.diagonalFill::before {
   content: "";
   position: absolute;
   inset: 0;
   background: var(--color-carbon);
   clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
-  transition-property: clip-path;
-  transition-duration: 0.9s;
-  transition-timing-function: cubic-bezier(0.16, 0.84, 0.22, 1);
+  transition: clip-path 0.9s cubic-bezier(0.16, 0.84, 0.22, 1);
   z-index: 0;
 }
 
-.btnFillDiagonal:hover::before,
-.btnFillDiagonal:focus-visible::before {
+.diagonalFill:hover::before,
+.diagonalFill:focus-visible::before {
   clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
 }
 
-.btnFillDiagonalLabelBase,
-.btnFillDiagonalLabelHover {
+.labelSizer {
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+.labelBase,
+.labelHover {
   position: absolute;
   inset: 0;
   display: flex;
@@ -40,40 +41,40 @@
   pointer-events: none;
 }
 
-.btnFillDiagonalLabelBase {
+.labelBase {
   color: var(--color-carbon);
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   z-index: 1;
 }
 
-.btnFillDiagonalLabelHover {
+.labelHover {
   color: var(--color-paper);
   clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
   z-index: 2;
 }
 
-.btnFillDiagonal:hover .btnFillDiagonalLabelHover,
-.btnFillDiagonal:focus-visible .btnFillDiagonalLabelHover {
+.diagonalFill:hover .labelHover,
+.diagonalFill:focus-visible .labelHover {
   clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
 }
 
-.btnFillDiagonal:hover .btnFillDiagonalLabelBase,
-.btnFillDiagonal:focus-visible .btnFillDiagonalLabelBase {
+.diagonalFill:hover .labelBase,
+.diagonalFill:focus-visible .labelBase {
   clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
 }
 
-:global(.dark) .btnFillDiagonal {
+:global(.dark) .diagonalFill {
   color: var(--color-paper);
 }
 
-:global(.dark) .btnFillDiagonal::before {
+:global(.dark) .diagonalFill::before {
   background: var(--color-toxic);
 }
 
-:global(.dark) .btnFillDiagonalLabelHover {
+:global(.dark) .labelHover {
   color: var(--color-carbon);
 }
 
-:global(.dark) .btnFillDiagonalLabelBase {
+:global(.dark) .labelBase {
   color: var(--color-paper);
 }
