@@ -82,7 +82,22 @@ function ThemeTogglerButton({
           }}
           {...props}
         >
-          {getIcon(effective, resolved, modes)}
+          {(() => {
+            const icon = getIcon(effective, resolved, modes);
+            if (!React.isValidElement(icon)) return icon;
+            const baseIcon = React.cloneElement(icon, {
+              className: cn(icon.props.className, "theme-icon-svg"),
+            });
+            const hoverIcon = React.cloneElement(icon, {
+              className: cn(icon.props.className, "theme-icon-svg"),
+            });
+            return (
+              <>
+                <span className="theme-icon theme-icon--base">{baseIcon}</span>
+                <span className="theme-icon theme-icon--hover">{hoverIcon}</span>
+              </>
+            );
+          })()}
         </button>
       )}
     </ThemeTogglerPrimitive>

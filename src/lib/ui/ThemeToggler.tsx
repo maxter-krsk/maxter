@@ -1,13 +1,14 @@
 import {
   ThemeTogglerButton,
   type ThemeTogglerButtonProps,
-} from '@/components/animate-ui/components/buttons/theme-toggler';
+} from "@/components/animate-ui/components/buttons/theme-toggler";
 
 interface ThemeTogglerButtonDemoProps {
-  variant: ThemeTogglerButtonProps['variant'];
-  size: ThemeTogglerButtonProps['size'];
-  direction: ThemeTogglerButtonProps['direction'];
+  variant: ThemeTogglerButtonProps["variant"];
+  size: ThemeTogglerButtonProps["size"];
+  direction: ThemeTogglerButtonProps["direction"];
   system: boolean;
+  className?: string;
 }
 
 export default function ThemeToggler({
@@ -15,13 +16,15 @@ export default function ThemeToggler({
   size,
   direction,
   system,
+  className,
 }: ThemeTogglerButtonDemoProps) {
   return (
     <ThemeTogglerButton
+      className={className ?? "cursor-pointer"}
       variant={variant}
       size={size}
       direction={direction}
-      modes={system ? ['light', 'dark'] : ['light', 'dark']}
+      modes={system ? ["light", "dark"] : ["light", "dark"]}
     />
   );
 }
