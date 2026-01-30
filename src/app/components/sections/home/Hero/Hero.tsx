@@ -1,6 +1,6 @@
 import { Features } from "./Features";
-import { FlipActionButton } from "@/components/animate-ui/components/buttons/flip-action";
 import { Clock } from "./Clock";
+import { DiagonalFill } from "@/lib/ui/DiagonalFill";
 
 export function Hero() {
   return (
@@ -11,9 +11,12 @@ export function Hero() {
             Маркетинг, который работает на прибыль
           </h1>
           <Features />
-          <FlipActionButton className="mb-20 sm:mb-30" type="button">
+          <DiagonalFill
+            className="mb-20 sm:mb-30 border border-carbon px-30 py-14 font-unbounded text-14 dark:border-paper cursor-pointer"
+            type="button"
+          >
             Оставить заявку
-          </FlipActionButton>
+          </DiagonalFill>
           <Clock />
         </div>
       </div>
