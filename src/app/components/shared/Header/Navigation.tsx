@@ -10,7 +10,7 @@ export function Navigation() {
 
   return (
     <nav>
-      <ul className="flex gap-40">
+      <ul className="flex gap-40 text-14 xl:text-16">
         {links.map(([title, href]) => (
           <li key={href}>
             <HoverFlipNavLink className="font-unbounded uppercase dark:text-paper" href={href}>

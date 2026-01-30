@@ -31,7 +31,7 @@ export default function Header() {
               />
             </Link>
           </div>
-          <div className="flex items-center justify-center px-24 flex-1">
+          <div className="flex items-center justify-center xl:px-24 flex-1">
             <Navigation />
           </div>
           <div className="flex items-stretch shrink-0">
@@ -57,14 +57,35 @@ export default function Header() {
         <div className="flex lg:hidden justify-between items-center">
           <Link href="/">
             <Image
-              className="w-120 h-50"
+              className="w-120 h-50 dark:hidden block"
               src="/icons/logos/maxter-dark.svg"
               alt="Логотип Maxter"
               width="121"
               height="50"
             />
+            <Image
+              className="w-120 h-50 dark:block hidden"
+              src="/icons/logos/maxter-light.svg"
+              alt="Логотип Maxter"
+              width="121"
+              height="50"
+            />
           </Link>
-          <Burger />
+          <div className="flex items-stretch border border-carbon dark:border-paper divide-x divide-carbon dark:divide-paper">
+            <div className="flex items-center px-10">
+              <ThemeToggler
+                className="rounded-none [&_.theme-icon--hover]:hidden [&_.theme-icon--base]:static [&_.theme-icon--base]:[clip-path:none]"
+                variant="ghost"
+                size="sm"
+                direction="ltr"
+                system={false}
+              />
+            </div>
+
+            <div className="flex items-center px-10">
+              <Burger />
+            </div>
+          </div>
         </div>
       </div>
     </header>
