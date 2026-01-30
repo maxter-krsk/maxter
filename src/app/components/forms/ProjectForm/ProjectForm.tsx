@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, type FormData } from "@/lib/validation/form-schema";
@@ -16,6 +17,7 @@ import { DiagonalFill } from "@/lib/ui/DiagonalFill";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/lib/ui/separator";
 import { Checkbox } from "@/components/animate-ui/components/radix/checkbox";
+import Image from "next/image";
 
 const budgets = [
   { value: "<1", label: "МЕНЕЕ 1 МЛН" },
@@ -36,6 +38,7 @@ type Props = {
 };
 
 export function ProjectForm({ className }: Props) {
+  const fileId = useId();
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -127,11 +130,37 @@ export function ProjectForm({ className }: Props) {
                   <li>4. Напишите, если удобнее общаться в мессенджере.</li>
                 </ul>
                 <FormControl className="cursor-pointer">
-                  <Input
-                    type="file"
-                    onChange={(e) => onChange(e.target.files?.[0])}
-                    {...rest}
-                  />
+                  <div className="flex items-center">
+                    <label
+                      htmlFor={fileId}
+                      className="inline-flex items-center gap-20 uppercase text-16 font-unbounded cursor-pointer"
+                    >
+                      <span className="grid p-10 border border-carbon dark:border-paper">
+                        <Image
+                          src="/icons/ui/form/clip-dark.svg"
+                          width="28"
+                          height="28"
+                          alt="Прикрепить файл"
+                          className="block dark:hidden w-28 h-28"
+                        />
+                        <Image
+                          src="/icons/ui/form/clip-light.svg"
+                          width="28"
+                          height="28"
+                          alt="Прикрепить файл"
+                          className="hidden dark:block w-20 h-20"
+                        />
+                      </span>
+                      Прикрепить файл
+                    </label>
+                    <Input
+                      id={fileId}
+                      type="file"
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                      className="sr-only"
+                      {...rest}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -192,11 +221,12 @@ export function ProjectForm({ className }: Props) {
                     >
                       <Checkbox
                         checked={field.value === opt.value}
-                        onCheckedChange={(checked) =>
-                          field.onChange(checked ? opt.value : undefined)
-                        }
+                        onCheckedChange={(checked) => {
+                          if (checked) field.onChange(opt.value);
+                        }}
                         size="lg"
                         className="border-carbon dark:border-paper w-20 h-20 rounded-full"
+                        indicator="dot"
                       />
                       <span>{opt.label}</span>
                     </label>
