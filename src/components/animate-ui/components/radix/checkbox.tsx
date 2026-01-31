@@ -56,12 +56,7 @@ function DotIndicator({ size }: { size?: "default" | "sm" | "lg" }) {
     size === "sm" ? "size-2.5" : size === "lg" ? "size-3.5" : "size-3";
 
   return (
-    <span
-      className={cn(
-        "rounded-full bg-carbon dark:bg-paper",
-        sizeClass,
-      )}
-    />
+    <span className={cn("rounded-full bg-carbon dark:bg-paper", sizeClass)} />
   );
 }
 
@@ -73,18 +68,21 @@ function Checkbox({
   indicator = "check",
   ...props
 }: CheckboxProps) {
+  const normalizedSize = size ?? "default";
   return (
     <CheckboxPrimitive
-      className={cn(checkboxVariants({ variant, size, className }))}
+      className={cn(
+        checkboxVariants({ variant, size: normalizedSize, className }),
+      )}
       {...props}
     >
       {children}
       {indicator === "check" ? (
         <CheckboxIndicatorPrimitive
-          className={cn(checkboxIndicatorVariants({ size }))}
+          className={cn(checkboxIndicatorVariants({ size: normalizedSize }))}
         />
       ) : (
-        <DotIndicator size={size} />
+        <DotIndicator size={normalizedSize} />
       )}
     </CheckboxPrimitive>
   );

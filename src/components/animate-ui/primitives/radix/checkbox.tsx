@@ -30,7 +30,7 @@ function Checkbox({
 }: CheckboxProps) {
   const [isChecked, setIsChecked] = useControlledState({
     value: checked,
-    defaultValue: defaultChecked,
+    defaultValue: defaultChecked ?? false,
     onChange: onCheckedChange,
   });
 
