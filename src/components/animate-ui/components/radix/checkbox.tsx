@@ -7,6 +7,7 @@ import {
 } from "@/components/animate-ui/primitives/radix/checkbox";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
+import { useCheckbox } from "@/components/animate-ui/primitives/radix/checkbox";
 
 const checkboxVariants = cva(
   "peer shrink-0 flex items-center justify-center outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-500 focus-visible:ring-offset-2 [&[data-state=checked],&[data-state=indeterminate]]:bg-primary [&[data-state=checked],&[data-state=indeterminate]]:text-primary-foreground",
@@ -43,24 +44,46 @@ const checkboxIndicatorVariants = cva("", {
 });
 
 type CheckboxProps = CheckboxPrimitiveProps &
-  VariantProps<typeof checkboxVariants>;
+  VariantProps<typeof checkboxVariants> & {
+    indicator?: "check" | "dot";
+  };
+
+function DotIndicator({ size }: { size?: "default" | "sm" | "lg" }) {
+  const { isChecked } = useCheckbox();
+  if (!isChecked) return null;
+
+  const sizeClass =
+    size === "sm" ? "size-2.5" : size === "lg" ? "size-3.5" : "size-3";
+
+  return (
+    <span className={cn("rounded-full bg-carbon dark:bg-paper", sizeClass)} />
+  );
+}
 
 function Checkbox({
   className,
   children,
   variant,
   size,
+  indicator = "check",
   ...props
 }: CheckboxProps) {
+  const normalizedSize = size ?? "default";
   return (
     <CheckboxPrimitive
-      className={cn(checkboxVariants({ variant, size, className }))}
+      className={cn(
+        checkboxVariants({ variant, size: normalizedSize, className }),
+      )}
       {...props}
     >
       {children}
-      <CheckboxIndicatorPrimitive
-        className={cn(checkboxIndicatorVariants({ size }))}
-      />
+      {indicator === "check" ? (
+        <CheckboxIndicatorPrimitive
+          className={cn(checkboxIndicatorVariants({ size: normalizedSize }))}
+        />
+      ) : (
+        <DotIndicator size={normalizedSize} />
+      )}
     </CheckboxPrimitive>
   );
 }

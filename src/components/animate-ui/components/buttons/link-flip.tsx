@@ -118,7 +118,7 @@ export function HoverFlipNavLink({
         </motion.span>
         <motion.span
           className={cn(
-            "inline-flex items-center justify-center text-current",
+            "inline-flex items-center justify-center text-current dark:text-toxic",
             backClassName,
           )}
           style={{

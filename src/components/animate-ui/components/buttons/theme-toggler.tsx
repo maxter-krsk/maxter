@@ -14,11 +14,13 @@ import {
 import { buttonVariants } from "@/components/animate-ui/components/buttons/icon";
 import { cn } from "@/lib/utils";
 
+type IconEl = React.ReactElement<{ className?: string }>;
+
 const getIcon = (
   effective: ThemeSelection,
   resolved: Resolved,
-  modes: ThemeSelection[]
-) => {
+  modes: ThemeSelection[],
+): IconEl => {
   const theme = modes.includes("system") ? effective : resolved;
   return theme === "system" ? (
     <Monitor className="size-20" />
@@ -32,7 +34,7 @@ const getIcon = (
 const getNextTheme = (
   effective: ThemeSelection,
   resolved: Resolved,
-  modes: ThemeSelection[]
+  modes: ThemeSelection[],
 ): ThemeSelection => {
   // если system не разрешён, используем фактическую (resolved) тему
   const current: ThemeSelection =
@@ -82,7 +84,26 @@ function ThemeTogglerButton({
           }}
           {...props}
         >
-          {getIcon(effective, resolved, modes)}
+          {(() => {
+            const icon = getIcon(effective, resolved, modes);
+
+            const baseIcon = React.cloneElement(icon, {
+              className: cn(icon.props.className, "theme-icon-svg"),
+            });
+
+            const hoverIcon = React.cloneElement(icon, {
+              className: cn(icon.props.className, "theme-icon-svg"),
+            });
+
+            return (
+              <>
+                <span className="theme-icon theme-icon--base">{baseIcon}</span>
+                <span className="theme-icon theme-icon--hover">
+                  {hoverIcon}
+                </span>
+              </>
+            );
+          })()}
         </button>
       )}
     </ThemeTogglerPrimitive>

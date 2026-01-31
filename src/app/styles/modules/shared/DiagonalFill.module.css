@@ -1,0 +1,80 @@
+.diagonalFill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-transform: uppercase;
+  color: var(--color-carbon);
+}
+
+.diagonalFill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-carbon);
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+  transition: clip-path 0.9s cubic-bezier(0.16, 0.84, 0.22, 1);
+  z-index: 0;
+}
+
+.diagonalFill:hover::before,
+.diagonalFill:focus-visible::before {
+  clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+}
+
+.labelSizer {
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+.labelBase,
+.labelHover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: clip-path 0.9s cubic-bezier(0.16, 0.84, 0.22, 1);
+  will-change: clip-path;
+  pointer-events: none;
+}
+
+.labelBase {
+  color: var(--color-carbon);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  z-index: 1;
+}
+
+.labelHover {
+  color: var(--color-paper);
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+  z-index: 2;
+}
+
+.diagonalFill:hover .labelHover,
+.diagonalFill:focus-visible .labelHover {
+  clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+}
+
+.diagonalFill:hover .labelBase,
+.diagonalFill:focus-visible .labelBase {
+  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
+}
+
+:global(.dark) .diagonalFill {
+  color: var(--color-paper);
+}
+
+:global(.dark) .diagonalFill::before {
+  background: var(--color-toxic);
+}
+
+:global(.dark) .labelHover {
+  color: var(--color-carbon);
+}
+
+:global(.dark) .labelBase {
+  color: var(--color-paper);
+}

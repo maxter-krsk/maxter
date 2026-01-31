@@ -27,14 +27,14 @@ export default function Footer() {
   return (
     <footer className={`${unbounded.className} dark:text-paper`}>
       <div className="container">
-        <div className="flex flex-col gap-40 xs:flex-row xs:justify-between items-start mb-50">
+        <div className="flex flex-col gap-40 sm:flex-row sm:justify-between items-start mb-50">
           <span className="uppercase font-bold">
             digital
             <br />
             upgrade
           </span>
           <nav className="uppercase flex-col md:flex-row flex gap-40">
-            <ul className="flex flex-col gap-14 xs:gap-20 desk:flex-row desk:gap-40 uppercase font-bold text-16">
+            <ul className="flex flex-col gap-14 sm:gap-20 desk:flex-row desk:gap-40 uppercase font-bold text-16">
               {nav.items.map((item) => (
                 <li className="desk:mb-20" key={item.title}>
                   <HoverFlipNavLink className="text-16" href={item.link}>
@@ -58,7 +58,7 @@ export default function Footer() {
           </nav>
         </div>
         <div
-          className={`${roboto.className} flex flex-col gap-10 xs:gap-0 xs:flex-row justify-between text-14 font-light mb-50 xs:mb-100 xs:items-center`}
+          className={`${roboto.className} flex flex-col gap-10 sm:gap-0 sm:flex-row justify-between text-14 font-light mb-50 sm:mb-100 sm:items-center`}
         >
           <span>© Агентство коммуникаций Maxter, {year}</span>
           <HoverFlipNavLink className="text-14" href="/privacy-policy">

@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Checkbox as CheckboxPrimitive } from '@base-ui-components/react/checkbox';
+import * as React from "react";
+import { Checkbox as CheckboxPrimitive } from "@base-ui-components/react/checkbox";
 import {
   motion,
   type HTMLMotionProps,
   type SVGMotionProps,
-} from 'motion/react';
+} from "motion/react";
 
-import { getStrictContext } from '@/lib/get-strict-context';
-import { useControlledState } from '@/hooks/use-controlled-state';
+import { getStrictContext } from "@/lib/get-strict-context";
+import { useControlledState } from "@/hooks/use-controlled-state";
 
 type CheckboxContextType = {
   isChecked: boolean;
-  setIsChecked: CheckboxProps['onCheckedChange'];
+  setIsChecked: CheckboxProps["onCheckedChange"];
   isIndeterminate: boolean | undefined;
 };
 
 const [CheckboxProvider, useCheckbox] =
-  getStrictContext<CheckboxContextType>('CheckboxContext');
+  getStrictContext<CheckboxContextType>("CheckboxContext");
 
 type CheckboxProps = Omit<
   React.ComponentProps<typeof CheckboxPrimitive.Root>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'button'>;
+  HTMLMotionProps<"button">;
 
 function Checkbox({
   name,
@@ -44,19 +44,32 @@ function Checkbox({
 }: CheckboxProps) {
   const [isChecked, setIsChecked] = useControlledState({
     value: checked,
-    defaultValue: defaultChecked,
-    onChange: onCheckedChange,
+    defaultValue: defaultChecked ?? false,
   });
+
+  const handleCheckedChange = React.useCallback<
+    NonNullable<CheckboxProps["onCheckedChange"]>
+  >(
+    (nextChecked, eventDetails) => {
+      setIsChecked(nextChecked);
+      onCheckedChange?.(nextChecked, eventDetails);
+    },
+    [setIsChecked, onCheckedChange],
+  );
 
   return (
     <CheckboxProvider
-      value={{ isChecked, setIsChecked, isIndeterminate: indeterminate }}
+      value={{
+        isChecked,
+        setIsChecked: handleCheckedChange,
+        isIndeterminate: indeterminate,
+      }}
     >
       <CheckboxPrimitive.Root
         name={name}
         defaultChecked={defaultChecked}
         checked={checked}
-        onCheckedChange={setIsChecked}
+        onCheckedChange={handleCheckedChange}
         indeterminate={indeterminate}
         value={value}
         nativeButton={nativeButton}
@@ -96,7 +109,7 @@ function CheckboxIndicator(props: CheckboxIndicatorProps) {
           strokeWidth="3.5"
           stroke="currentColor"
           initial="unchecked"
-          animate={isChecked ? 'checked' : 'unchecked'}
+          animate={isChecked ? "checked" : "unchecked"}
           {...props}
         >
           {isIndeterminate ? (
