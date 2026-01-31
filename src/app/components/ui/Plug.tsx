@@ -112,19 +112,19 @@ export default function Plug({
           <div className="container h-screen">
             <div className="h-full w-full flex items-center">
               <div className="relative flex flex-col">
-                <h1 className="text-46 font-medium uppercase mb-40 font-unbounded">
+                <h1 className="text-18 sm:text-30 lg:text-46 font-medium uppercase mb-40 font-unbounded">
                   <TypingText text={title} duration={typingSpeed}>
                     <TypingTextCursor style={{ height: "1em", width: "2px" }} />
                   </TypingText>
                 </h1>
-                <p className="text-46 mb-40 font-light uppercase font-unbounded">
+                <p className="text-18 sm:text-30 lg:text-46 mb-40 font-light uppercase font-unbounded">
                   <TypingText
                     text={subtitle}
                     duration={typingSpeed}
                     delay={subtitleDelay}
                   />
                 </p>
-                <p className="ml-auto text-46 font-light uppercase font-unbounded">
+                <p className="ml-auto text-18 sm:text-30 lg:text-46А font-light uppercase font-unbounded">
                   <TypingText
                     text={resolvedQuestionTail}
                     duration={typingSpeed}

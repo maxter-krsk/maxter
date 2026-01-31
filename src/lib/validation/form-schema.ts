@@ -33,7 +33,7 @@ const base = z.object({
 export const formSchema = base
   .extend({
     contactMethod: z
-      .enum(["telegram", "whatsapp", "email", "phone"])
+      .enum(["telegram", "whatsapp", "email", "phone", "max"])
       .optional(),
 
     budget: z.enum(["<1", "2-4", "4-7", "7-15"]),
@@ -42,6 +42,7 @@ export const formSchema = base
     whatsappPhone: z.string().trim().optional(),
     email: z.string().trim().optional(),
     phone: z.string().trim().optional(),
+    maxContact: z.string().trim().optional(),
   })
   .superRefine((val, ctx) => {
     if (!val.contactMethod) {
@@ -107,6 +108,18 @@ export const formSchema = base
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ["phone"],
+          message: "Некорректный номер телефона",
+        });
+      }
+    }
+
+    if (val.contactMethod === "max") {
+      const raw = val.maxContact ?? "";
+      const digits = digitsOnly(raw);
+      if (digits.length < 10 || digits.length > 15) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["maxContact"],
           message: "Некорректный номер телефона",
         });
       }
