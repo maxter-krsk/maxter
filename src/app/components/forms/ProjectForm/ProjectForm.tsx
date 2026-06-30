@@ -1,6 +1,7 @@
 "use client";
 
-import { useId } from "react";
+import Image from "next/image";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, type FormData } from "@/lib/validation/form-schema";
@@ -9,6 +10,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/lib/ui/form";
 import { Input } from "@/lib/ui/input";
@@ -17,21 +19,20 @@ import { DiagonalFill } from "@/lib/ui/DiagonalFill";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/lib/ui/separator";
 import { Checkbox } from "@/components/animate-ui/components/radix/checkbox";
-import Image from "next/image";
 
 const budgets = [
   { value: "<1", label: "МЕНЕЕ 1 МЛН" },
   { value: "2-4", label: "2–4 МЛН" },
   { value: "4-7", label: "4–7 МЛН" },
   { value: "7-15", label: "7–15 МЛН" },
-];
+] as const;
 
 const contactOptions = [
   { value: "telegram", label: "Telegram" },
   { value: "phone", label: "Телефон" },
   { value: "email", label: "Почта" },
   { value: "max", label: "MAX" },
-];
+] as const;
 
 type Props = {
   className?: string;
@@ -39,26 +40,79 @@ type Props = {
 
 export function ProjectForm({ className }: Props) {
   const fileId = useId();
+  const [submitState, setSubmitState] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       company: "",
       businessDescription: "",
+      fileName: "",
       source: "",
       contactMethod: undefined,
       telegramUsername: "",
-      whatsappPhone: "",
       email: "",
       phone: "",
       maxContact: "",
+      budget: undefined,
     },
   });
 
   const contactMethod = form.watch("contactMethod");
 
-  const onSubmit = (data: FormData) => {
-    console.log("Project form submit:", data);
+  const onSubmit = async (data: FormData) => {
+    setSubmitState("loading");
+    setSubmitMessage("");
+
+    try {
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = (await response.json().catch(() => null)) as {
+        message?: string;
+      } | null;
+
+      if (!response.ok) {
+        setSubmitState("error");
+        setSubmitMessage(
+          result?.message ??
+            "Не удалось отправить заявку. Попробуйте еще раз немного позже.",
+        );
+        return;
+      }
+
+      form.reset({
+        name: "",
+        company: "",
+        businessDescription: "",
+        fileName: "",
+        source: "",
+        contactMethod: undefined,
+        telegramUsername: "",
+        email: "",
+        phone: "",
+        maxContact: "",
+        budget: undefined,
+      });
+      setSubmitState("success");
+      setSubmitMessage(
+        result?.message ??
+          "Спасибо! Мы получили заявку и свяжемся с вами после обработки.",
+      );
+    } catch {
+      setSubmitState("error");
+      setSubmitMessage(
+        "Не удалось отправить заявку. Проверьте соединение и попробуйте снова.",
+      );
+    }
   };
 
   return (
@@ -67,14 +121,28 @@ export function ProjectForm({ className }: Props) {
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn("flex flex-col", className)}
       >
-        <div className="grid gap-20 md:grid-cols-2 mb-40">
+        <div className="mb-32 space-y-10">
+          {submitState === "success" && (
+            <div className="border border-carbon px-16 py-14 text-14 dark:border-paper">
+              {submitMessage}
+            </div>
+          )}
+          {submitState === "error" && (
+            <div className="border border-invalid px-16 py-14 text-14 text-invalid">
+              {submitMessage}
+            </div>
+          )}
+        </div>
+
+        <div className="mb-40 grid gap-20 md:grid-cols-2">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Имя*</FormLabel>
                 <FormControl>
-                  <Input placeholder="Имя*" {...field} />
+                  <Input placeholder="Имя*" autoComplete="name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -85,8 +153,13 @@ export function ProjectForm({ className }: Props) {
             name="company"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Компания*</FormLabel>
                 <FormControl>
-                  <Input placeholder="Компания*" {...field} />
+                  <Input
+                    placeholder="Компания*"
+                    autoComplete="organization"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -99,9 +172,7 @@ export function ProjectForm({ className }: Props) {
           name="businessDescription"
           render={({ field }) => (
             <FormItem className="mb-40">
-              <h3 className="mb-20 uppercase text-22 font-unbounded">
-                О проекте*
-              </h3>
+              <FormLabel>О проекте*</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Расскажите о вашем проекте*"
@@ -116,39 +187,40 @@ export function ProjectForm({ className }: Props) {
 
         <FormField
           control={form.control}
-          name="file"
+          name="fileName"
           render={({ field }) => {
-            const { onChange, value, ...rest } = field;
+            const { onChange, ...rest } = field;
+
             return (
-              <FormItem className="flex justify-between mb-40">
+              <FormItem className="mb-40 grid gap-20 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
                 <ul className="space-y-10 font-light text-14">
-                  <li>1. Из какой вы компании, чем она занимается?</li>
+                  <li>1. Из какой вы компании, чем она занимается?</li>
                   <li>
-                    2. С чем мы можем помочь? Как представляете результат?
+                    2. С чем мы можем помочь? Как представляете результат?
                   </li>
-                  <li>3. На какой срок работы и бюджет рассчитываете?</li>
-                  <li>4. Напишите, если удобнее общаться в мессенджере.</li>
+                  <li>3. На какой срок работы и бюджет рассчитываете?</li>
+                  <li>4. Напишите, если удобнее общаться в мессенджере.</li>
                 </ul>
                 <FormControl className="cursor-pointer">
-                  <div className="flex items-center">
+                  <div className="flex flex-col items-start gap-10">
                     <label
                       htmlFor={fileId}
-                      className="inline-flex items-center gap-20 uppercase text-16 font-unbounded cursor-pointer"
+                      className="inline-flex cursor-pointer items-center gap-20 uppercase text-16 font-unbounded"
                     >
-                      <span className="grid p-10 border border-carbon dark:border-paper">
+                      <span className="grid border border-carbon p-10 dark:border-paper">
                         <Image
                           src="/icons/ui/form/clip-dark.svg"
-                          width="28"
-                          height="28"
+                          width={28}
+                          height={28}
                           alt="Прикрепить файл"
-                          className="block dark:hidden w-28 h-28"
+                          className="block h-28 w-28 dark:hidden"
                         />
                         <Image
                           src="/icons/ui/form/clip-light.svg"
-                          width="28"
-                          height="28"
+                          width={28}
+                          height={28}
                           alt="Прикрепить файл"
-                          className="hidden dark:block w-20 h-20"
+                          className="hidden h-20 w-20 dark:block"
                         />
                       </span>
                       Прикрепить файл
@@ -156,10 +228,17 @@ export function ProjectForm({ className }: Props) {
                     <Input
                       id={fileId}
                       type="file"
-                      onChange={(e) => onChange(e.target.files?.[0])}
+                      onChange={(event) =>
+                        onChange(event.target.files?.[0]?.name ?? "")
+                      }
                       className="sr-only"
                       {...rest}
                     />
+                    {field.value ? (
+                      <span className="text-14 text-ash dark:text-paper/80">
+                        {field.value}
+                      </span>
+                    ) : null}
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -173,20 +252,19 @@ export function ProjectForm({ className }: Props) {
           name="budget"
           render={({ field }) => (
             <FormItem>
-              <h6 className="mb-20 uppercase text-22 font-unbounded">
-                Бюджет*
-              </h6>
+              <FormLabel>Бюджет*</FormLabel>
               <FormControl>
-                <div className="grid gap-3 sm:grid-cols-4 mb-40">
+                <div className="mb-40 grid gap-3 sm:grid-cols-4">
                   {budgets.map((item) => {
                     const active = field.value === item.value;
+
                     return (
                       <button
                         key={item.value}
                         type="button"
                         onClick={() => field.onChange(item.value)}
                         className={cn(
-                          "border border-carbon dark:border-paper px-4 py-3 text-12 uppercase transition-colors",
+                          "border border-carbon px-4 py-3 text-12 uppercase transition-colors dark:border-paper",
                           active
                             ? "bg-carbon text-paper dark:bg-paper dark:text-carbon"
                             : "hover:bg-carbon hover:text-paper dark:hover:bg-paper dark:hover:text-carbon",
@@ -198,7 +276,7 @@ export function ProjectForm({ className }: Props) {
                   })}
                 </div>
               </FormControl>
-              <Separator className="w-full bg-carbon mb-40" />
+              <Separator className="mb-40 w-full bg-carbon" />
               <FormMessage />
             </FormItem>
           )}
@@ -209,15 +287,13 @@ export function ProjectForm({ className }: Props) {
           name="contactMethod"
           render={({ field }) => (
             <FormItem>
-              <h5 className="mb-20 uppercase text-22 font-unbounded">
-                Способ связи*
-              </h5>
+              <FormLabel>Способ связи*</FormLabel>
               <FormControl>
-                <div className="grid gap-12 sm:grid-cols-2 mb-40">
+                <div className="mb-40 grid gap-12 sm:grid-cols-2">
                   {contactOptions.map((opt) => (
                     <label
                       key={opt.value}
-                      className="flex items-center gap-10 text-14 cursor-pointer"
+                      className="flex cursor-pointer items-center gap-10 text-14"
                     >
                       <Checkbox
                         checked={field.value === opt.value}
@@ -225,7 +301,7 @@ export function ProjectForm({ className }: Props) {
                           if (checked) field.onChange(opt.value);
                         }}
                         size="lg"
-                        className="border-carbon dark:border-paper w-20 h-20 rounded-full"
+                        className="h-20 w-20 rounded-full border-carbon dark:border-paper"
                         indicator="dot"
                       />
                       <span>{opt.label}</span>
@@ -243,7 +319,8 @@ export function ProjectForm({ className }: Props) {
             control={form.control}
             name="telegramUsername"
             render={({ field }) => (
-              <FormItem className="mb-40 w-[50%]">
+              <FormItem className="mb-40 w-full md:max-w-md">
+                <FormLabel>Telegram username*</FormLabel>
                 <FormControl>
                   <Input placeholder="@username*" {...field} />
                 </FormControl>
@@ -258,7 +335,8 @@ export function ProjectForm({ className }: Props) {
             control={form.control}
             name="phone"
             render={({ field }) => (
-              <FormItem className="mb-40 w-[50%]">
+              <FormItem className="mb-40 w-full md:max-w-md">
+                <FormLabel>Телефон*</FormLabel>
                 <FormControl>
                   <Input type="tel" placeholder="Телефон*" {...field} />
                 </FormControl>
@@ -273,7 +351,8 @@ export function ProjectForm({ className }: Props) {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="mb-40 w-[50%]">
+              <FormItem className="mb-40 w-full md:max-w-md">
+                <FormLabel>E-mail*</FormLabel>
                 <FormControl>
                   <Input type="email" placeholder="E-mail*" {...field} />
                 </FormControl>
@@ -288,7 +367,8 @@ export function ProjectForm({ className }: Props) {
             control={form.control}
             name="maxContact"
             render={({ field }) => (
-              <FormItem className="mb-40 w-[50%]">
+              <FormItem className="mb-40 w-full md:max-w-md">
+                <FormLabel>MAX*</FormLabel>
                 <FormControl>
                   <Input
                     type="tel"
@@ -307,9 +387,7 @@ export function ProjectForm({ className }: Props) {
           name="source"
           render={({ field }) => (
             <FormItem className="mb-40">
-              <h1 className="mb-20 uppercase text-22 font-unbounded">
-                Откуда вы узнали о нас?*
-              </h1>
+              <FormLabel>Откуда вы узнали о нас?*</FormLabel>
               <FormControl>
                 <Input placeholder="Ваш ответ" {...field} />
               </FormControl>
@@ -320,9 +398,11 @@ export function ProjectForm({ className }: Props) {
 
         <DiagonalFill
           type="submit"
-          className="cursor-pointer border border-carbon dark:border-paper py-16 px-10 w-full"
+          disabled={submitState === "loading"}
+          aria-busy={submitState === "loading"}
+          className="w-full cursor-pointer border border-carbon px-10 py-16 disabled:cursor-not-allowed disabled:opacity-60 dark:border-paper"
         >
-          Начать проект
+          {submitState === "loading" ? "Отправляем заявку..." : "Начать проект"}
         </DiagonalFill>
       </form>
     </Form>

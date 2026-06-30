@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { HoverFlipNavLink } from "@/components/animate-ui/components/buttons/link-flip";
 
 export function Navigation() {
@@ -13,7 +12,10 @@ export function Navigation() {
       <ul className="flex gap-40 text-14 xl:text-16">
         {links.map(([title, href]) => (
           <li key={href}>
-            <HoverFlipNavLink className="font-unbounded uppercase dark:text-paper" href={href}>
+            <HoverFlipNavLink
+              className="font-unbounded uppercase dark:text-paper"
+              href={href}
+            >
               {title}
             </HoverFlipNavLink>
           </li>

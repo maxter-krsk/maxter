@@ -1,16 +1,15 @@
-import Plug from "@/app/components/ui/Plug";
-
 export default function AboutPage() {
   return (
-    <Plug>
-      <section>
-        <div className="container py-60">
+    <section>
+      <div className="container py-60">
+        <div className="border border-carbon px-24 py-40 dark:border-paper sm:px-40">
           <h1 className="text-46 font-unbounded uppercase">О нас</h1>
-          <p className="mt-20 text-16 text-ash dark:text-paper/80">
-            Эта страница будет обновлена в ближайшее время.
+          <p className="mt-20 max-w-2xl text-16 text-ash dark:text-paper/80">
+            Страница в разработке. Скоро здесь появится информация о команде,
+            подходе Maxter и формате работы с проектами.
           </p>
         </div>
-      </section>
-    </Plug>
+      </div>
+    </section>
   );
 }

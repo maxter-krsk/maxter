@@ -3,6 +3,7 @@
 import { Logo } from "@/app/components/ui/Logo";
 import { HoverFlipNavLink } from "@/components/animate-ui/components/buttons/link-flip";
 import { unbounded, roboto } from "@/app/components/ui/fonts";
+import { contactInfo } from "@/lib/site";
 
 const nav = {
   items: [
@@ -45,14 +46,17 @@ export default function Footer() {
             </ul>
             <div className="flex flex-col gap-10">
               <span className="font-bold">Связаться с нами:</span>
-              <HoverFlipNavLink className="text-16" href="tel:+79230198369">
-                +7 (923) 019-83-69
+              <HoverFlipNavLink
+                className="text-16"
+                href={contactInfo.phoneHref}
+              >
+                {contactInfo.phone}
               </HoverFlipNavLink>
               <HoverFlipNavLink
                 className="text-16"
-                href="mailto:maxter24@yandex.ru"
+                href={contactInfo.emailHref}
               >
-                maxter24@yandex.ru
+                {contactInfo.email}
               </HoverFlipNavLink>
             </div>
           </nav>

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import ThemeToggler from "@/lib/ui/ThemeToggler";
 import {
   Sheet,
   SheetTrigger,
@@ -13,6 +12,7 @@ import {
   SheetClose,
 } from "@/lib/ui/sheet";
 import styles from "@/app/styles/modules/Header/Burger.module.css";
+import { contactInfo } from "@/lib/site";
 
 const links: [string, string][] = [
   ["О нас", "/about"],
@@ -25,19 +25,7 @@ const socials = [
     light: "/icons/ui/socials/phone-dark.svg",
     dark: "/icons/ui/socials/phone-light.svg",
     label: "Телефон",
-    href: "tel:+79999999999",
-  },
-  {
-    light: "/icons/ui/socials/tg-dark.svg",
-    dark: "/icons/ui/socials/tg-light.svg",
-    label: "Telegram",
-    href: "https://t.me/+79999999999",
-  },
-  {
-    light: "/icons/ui/socials/wa-dark.svg",
-    dark: "/icons/ui/socials/wa-light.svg",
-    label: "WhatsApp",
-    href: "https://wa.me/79999999999",
+    href: contactInfo.phoneHref,
   },
 ];
 
@@ -91,28 +79,24 @@ export function Burger() {
           <div className="grid gap-3">
             <Link
               className="flex items-center justify-center border border-carbon px-4 py-3 font-unbounded uppercase text-14 transition-colors hover:bg-carbon hover:text-paper dark:border-paper dark:hover:bg-paper dark:hover:text-carbon"
-              href="#"
+              href="/contacts"
+              onClick={() => setOpen(false)}
             >
               Оставить заявку
-            </Link>
-            <Link
-              className="flex items-center justify-center border border-carbon px-4 py-3 font-unbounded uppercase text-14 transition-colors hover:bg-carbon hover:text-paper dark:border-paper dark:hover:bg-paper dark:hover:text-carbon"
-              href="#"
-            >
-              Портфолио
             </Link>
           </div>
 
           <div className="flex flex-col gap-10 uppercase">
-            <h1 className="font-semibold font-unbounded text-20 uppercase">
+            <h2 className="font-semibold font-unbounded text-20 uppercase">
               Связь:
-            </h1>
+            </h2>
             <div className="flex gap-16">
               {socials.map((social) => (
                 <Link
                   key={social.href}
                   className="inline-flex items-center gap-3 transition-colors hover:text-carbon dark:hover:text-paper"
                   href={social.href}
+                  onClick={() => setOpen(false)}
                 >
                   <span className="relative grid size-5 place-items-center">
                     <Image

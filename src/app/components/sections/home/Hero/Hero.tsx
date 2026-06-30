@@ -13,7 +13,7 @@ export function Hero() {
           <Features />
           <DiagonalFill
             className="mb-20 sm:mb-30 border border-carbon px-30 py-14 font-unbounded text-14 dark:border-paper cursor-pointer"
-            type="button"
+            href="/contacts"
           >
             Оставить заявку
           </DiagonalFill>

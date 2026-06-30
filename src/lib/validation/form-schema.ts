@@ -2,44 +2,36 @@ import { z } from "zod";
 
 const digitsOnly = (v: string) => v.replace(/\D/g, "");
 
+const requiredText = (label: string, max: number) =>
+  z
+    .string()
+    .trim()
+    .min(2, `${label}: минимум 2 символа`)
+    .max(max, `${label}: максимум ${max} символов`);
+
+const optionalText = (max: number) =>
+  z
+    .string()
+    .trim()
+    .max(max, `Максимум ${max} символов`)
+    .optional()
+    .or(z.literal(""));
+
 const base = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, "Минимум 2 символа")
-    .max(50)
-    .regex(/^[A-Za-zА-Яа-яЁё\s]+$/, "Только буквы и пробелы"),
-  company: z
-    .string()
-    .trim()
-    .min(2, "Минимум 2 символа")
-    .max(100)
-    .regex(/^[A-Za-zА-Яа-яЁё\s]+$/, "Только буквы и пробелы"),
-  businessDescription: z
-    .string()
-    .trim()
-    .min(2, "Минимум 2 символа")
-    .max(1000)
-    .regex(/^[A-Za-zА-Яа-яЁё\s]+$/, "Только буквы и пробелы"),
-  file: z.instanceof(File).optional(),
-  source: z
-    .string()
-    .trim()
-    .min(2, "Минимум 2 символа")
-    .max(1000)
-    .regex(/^[A-Za-zА-Яа-яЁё\s]+$/, "Только буквы и пробелы"),
+  name: requiredText("Имя", 80),
+  company: requiredText("Компания", 120),
+  businessDescription: requiredText("Описание проекта", 2000),
+  fileName: optionalText(255),
+  source: requiredText("Источник", 240),
 });
 
 export const formSchema = base
   .extend({
-    contactMethod: z
-      .enum(["telegram", "whatsapp", "email", "phone", "max"])
-      .optional(),
+    contactMethod: z.enum(["telegram", "email", "phone", "max"]).optional(),
 
     budget: z.enum(["<1", "2-4", "4-7", "7-15"]),
 
     telegramUsername: z.string().trim().optional(),
-    whatsappPhone: z.string().trim().optional(),
     email: z.string().trim().optional(),
     phone: z.string().trim().optional(),
     maxContact: z.string().trim().optional(),
@@ -67,18 +59,6 @@ export const formSchema = base
           code: z.ZodIssueCode.custom,
           path: ["telegramUsername"],
           message: "Некорректный username",
-        });
-      }
-    }
-
-    if (val.contactMethod === "whatsapp") {
-      const raw = val.whatsappPhone ?? "";
-      const digits = digitsOnly(raw);
-      if (digits.length < 10 || digits.length > 15) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["whatsappPhone"],
-          message: "Некорректный номер телефона",
         });
       }
     }
@@ -127,3 +107,5 @@ export const formSchema = base
   });
 
 export type FormData = z.infer<typeof formSchema>;
+export type LeadRequestData = FormData;
+export const leadRequestSchema = formSchema;
