@@ -13,7 +13,6 @@ import {
   type FieldValues,
 } from "react-hook-form";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/lib/ui/tooltip";
-import { Info } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/lib/ui/label";

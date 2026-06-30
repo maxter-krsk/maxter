@@ -134,7 +134,6 @@ function FlipButtonFront({
 }
 
 function FlipButtonBack({
-  transition = { type: "spring", stiffness: 280, damping: 20 },
   asChild = false,
   style,
   className,

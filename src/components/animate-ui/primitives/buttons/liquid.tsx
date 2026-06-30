@@ -16,6 +16,12 @@ type LiquidButtonProps = WithAsChild<
   }
 >;
 
+type LiquidButtonStyle = React.CSSProperties & {
+  "--liquid-button-fill-width"?: string;
+  "--liquid-button-fill-height"?: string;
+  "--liquid-button-delay"?: string;
+};
+
 function LiquidButton({
   delay = "0.18s",
   fillHeight = "0.125rem",
@@ -28,10 +34,10 @@ function LiquidButton({
 
   const { style: userStyle, ...restProps } = props;
 
-  const baseStyle: React.CSSProperties = {
-    ["--liquid-button-fill-width" as any]: "-1%",
-    ["--liquid-button-fill-height" as any]: fillHeight,
-    ["--liquid-button-delay" as any]: "0s",
+  const baseStyle: LiquidButtonStyle = {
+    "--liquid-button-fill-width": "-1%",
+    "--liquid-button-fill-height": fillHeight,
+    "--liquid-button-delay": "0s",
     background:
       "linear-gradient(var(--liquid-button-color, #21272A) 0 0) no-repeat calc(200% - var(--liquid-button-fill-width, -1%)) 100% / 200% var(--liquid-button-fill-height, 0.2em)",
     backgroundColor: "var(--liquid-button-background-color, transparent)",
@@ -60,7 +66,7 @@ function LiquidButton({
           color: { duration: 0.1 },
         },
       }}
-      style={{ ...baseStyle, ...(userStyle as React.CSSProperties) }}
+      style={{ ...baseStyle, ...(userStyle as LiquidButtonStyle) }}
       {...restProps}
     />
   );
