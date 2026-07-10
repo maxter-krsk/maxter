@@ -29,6 +29,7 @@
   --color-maxter: #423060;
   --color-lavanda: #B5A8C6;
   --color-invalid: #B70101;
+  --color-invalid-dark: #FF6B6B;
 
 
   /* Текст */
@@ -324,6 +325,12 @@ textarea[aria-invalid="true"],
 select[aria-invalid="true"] {
   border-color: var(--color-invalid);
   box-shadow: none;
+}
+
+.dark input[aria-invalid="true"],
+.dark textarea[aria-invalid="true"],
+.dark select[aria-invalid="true"] {
+  border-color: var(--color-invalid-dark);
 }
 
 input,

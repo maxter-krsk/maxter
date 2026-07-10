@@ -81,7 +81,7 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
     <FormItemContext.Provider value={{ id }}>
       <div
         data-slot="form-item"
-        className={cn("grid gap-2", className)}
+        className={cn("relative grid gap-2", className)}
         {...props}
       />
     </FormItemContext.Provider>
@@ -99,8 +99,9 @@ function FormLabel({
       data-slot="form-label"
       data-error={!!error}
       className={cn(
-        "text-[1.375rem] text-carbon dark:text-paper uppercase font-unbounded mb-20 data-[error=true]:text-destructive",
-        className
+        "mb-12 font-unbounded text-16 leading-20 uppercase text-carbon sm:mb-16 sm:text-18 sm:leading-22 lg:mb-20 lg:text-22 lg:leading-26",
+        "data-[error=true]:text-invalid dark:text-paper dark:data-[error=true]:text-invalid-dark",
+        className,
       )}
       htmlFor={formItemId}
       {...props}
@@ -174,8 +175,8 @@ function FormMessage({
         <span
           data-slot="form-error-dot"
           className={cn(
-            "absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-invalid pointer-events-none",
-            dotSide === "right" ? "right-12" : "left-12"
+            "pointer-events-none absolute top-1/2 h-6 w-6 -translate-y-1/2 rounded-full bg-invalid dark:bg-invalid-dark",
+            dotSide === "right" ? "right-12" : "left-12",
           )}
         />
       </TooltipTrigger>
@@ -187,8 +188,8 @@ function FormMessage({
         sideOffset={sideOffset}
         alignOffset={alignOffset}
         className={cn(
-          "bg-carbon dark:bg-paper text-paper dark:text-carbon p-16 rounded-none max-w-[15.625rem]",
-          className
+          "max-w-[15.625rem] rounded-none bg-carbon p-16 text-paper dark:bg-paper dark:text-carbon",
+          className,
         )}
       >
         <p className="uppercase mb-10 text-12 font-light font-unbounded">
