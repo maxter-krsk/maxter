@@ -24,7 +24,7 @@ export function ScrollTop() {
       <button
         key="scroll-top"
         onClick={scrollToTop}
-        className="fixed right-3 bottom-3 flex h-[2.68rem] w-[2.68rem] cursor-pointer items-center justify-center rounded-full hover:bg-[#142B23] hover:text-[#95BAA8]"
+        className="fixed right-3 bottom-3 flex h-[2.68rem] w-[2.68rem] cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-accent hover:text-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         aria-label="Прокрутить вверх"
       >
         <svg

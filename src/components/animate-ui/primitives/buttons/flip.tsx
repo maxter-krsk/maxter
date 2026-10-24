@@ -163,7 +163,7 @@ function FlipButtonBack({
   const Component = asChild ? Slot : motion.span;
 
   const baseBack =
-    "border border-carbon bg-transparent text-carbon dark:border-paper dark:bg-toxic";
+    "border border-carbon bg-transparent text-carbon dark:border-paper dark:bg-accent";
 
   return (
     <Component

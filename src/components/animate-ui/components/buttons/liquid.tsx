@@ -18,14 +18,14 @@ const buttonVariants = cva(
             [--liquid-button-background-color:transparent]
             dark:[--liquid-button-background-color:transparent]
 
-            [--liquid-button-color:#21272A]
-            dark:[--liquid-button-color:#D9D9D9]
+            [--liquid-button-color:#212121]
+            dark:[--liquid-button-color:#FFFFFF]
 
-            [--liquid-button-text-color:#21272A]
-            dark:[--liquid-button-text-color:#D9D9D9]
+            [--liquid-button-text-color:#212121]
+            dark:[--liquid-button-text-color:#FFFFFF]
 
-            [--liquid-button-hover-text-color:#D9D9D9]
-            dark:[--liquid-button-hover-text-color:#21272A]
+            [--liquid-button-hover-text-color:#FFFFFF]
+            dark:[--liquid-button-hover-text-color:#212121]
 
           `,
       },

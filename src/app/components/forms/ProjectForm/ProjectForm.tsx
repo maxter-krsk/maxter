@@ -166,7 +166,7 @@ export function ProjectForm({ className }: Props) {
             {submitState === "success" && (
               <div
                 role="status"
-                className="border border-carbon bg-carbon/[0.04] px-14 py-12 text-14 leading-20 dark:border-toxic dark:bg-toxic/10 dark:text-paper sm:px-16 sm:py-14 sm:text-16"
+                className="border border-carbon bg-carbon/[0.04] px-14 py-12 text-14 leading-20 dark:border-accent dark:bg-accent/10 dark:text-paper sm:px-16 sm:py-14 sm:text-16"
               >
                 {submitMessage}
               </div>
@@ -255,7 +255,7 @@ export function ProjectForm({ className }: Props) {
                       htmlFor={fileId}
                       className="group inline-flex cursor-pointer items-center gap-12 font-unbounded text-14 uppercase sm:gap-20 sm:text-16"
                     >
-                      <span className="grid border border-carbon p-8 transition-colors group-hover:bg-carbon dark:border-paper dark:group-hover:border-toxic dark:group-hover:bg-toxic sm:p-10">
+                      <span className="grid border border-carbon p-8 transition-colors group-hover:bg-carbon dark:border-paper dark:group-hover:border-accent dark:group-hover:bg-accent sm:p-10">
                         <Image
                           src="/icons/ui/form/clip-dark.svg"
                           width={28}
@@ -318,10 +318,10 @@ export function ProjectForm({ className }: Props) {
                         onClick={() => field.onChange(item.value)}
                         className={cn(
                           "min-h-44 border border-carbon px-8 py-10 text-10 uppercase transition-colors sm:min-h-0 sm:px-4 sm:py-3 sm:text-12 dark:border-paper",
-                          "focus-visible:outline-none focus-visible:border-maxter dark:focus-visible:border-toxic",
+                          "focus-visible:outline-none focus-visible:border-maxter dark:focus-visible:border-accent",
                           active
-                            ? "bg-carbon text-paper dark:border-toxic dark:bg-toxic dark:text-carbon"
-                            : "hover:bg-carbon hover:text-paper dark:hover:border-toxic dark:hover:bg-toxic dark:hover:text-carbon",
+                            ? "bg-carbon text-paper dark:border-accent dark:bg-accent dark:text-carbon"
+                            : "hover:bg-carbon hover:text-paper dark:hover:border-accent dark:hover:bg-accent dark:hover:text-carbon",
                         )}
                       >
                         {item.label}
@@ -355,7 +355,7 @@ export function ProjectForm({ className }: Props) {
                           if (checked) field.onChange(opt.value);
                         }}
                         size="lg"
-                        className="h-20 w-20 rounded-full border-carbon bg-transparent data-[state=checked]:border-carbon data-[state=checked]:bg-transparent dark:border-paper dark:data-[state=checked]:border-toxic dark:data-[state=checked]:bg-transparent"
+                        className="h-20 w-20 rounded-full border-carbon bg-transparent data-[state=checked]:border-carbon data-[state=checked]:bg-transparent dark:border-paper dark:data-[state=checked]:border-accent dark:data-[state=checked]:bg-transparent"
                         indicator="dot"
                       />
                       <span>{opt.label}</span>

@@ -21,13 +21,12 @@
 
   /* Цвета */
 
-  --color-paper: #D9D9D9;
+  --color-paper: #FFFFFF;
   --color-ash: #616161;
-  --color-carbon: #21272A;
-  --color-toxic: #A7FF00;
-  --color-milk: #F5F5F5;
-  --color-maxter: #423060;
-  --color-lavanda: #B5A8C6;
+  --color-carbon: #212121;
+  --color-accent: #EF5F18;
+  --color-milk: #FFFFFF;
+  --color-maxter: #271B67;
   --color-invalid: #B70101;
   --color-invalid-dark: #FF6B6B;
 
@@ -336,7 +335,7 @@ select[aria-invalid="true"] {
 input,
 textarea,
 select {
-  border-color: var(--color-border, #21272A);
+  border-color: var(--color-border, #212121);
   transition: border-color 0.2s ease;
 }
 

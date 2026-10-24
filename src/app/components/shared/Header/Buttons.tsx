@@ -5,7 +5,7 @@ export function Buttons() {
     <div className="flex h-full flex-col w-full">
       <div className="flex flex-1">
         <DiagonalFill href="/contacts" className="h-full w-full">
-          Оставить заявку
+          Обсудить проект
         </DiagonalFill>
       </div>
     </div>

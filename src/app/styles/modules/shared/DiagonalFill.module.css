@@ -68,7 +68,7 @@
 }
 
 :global(.dark) .diagonalFill::before {
-  background: var(--color-toxic);
+  background: var(--color-accent);
 }
 
 :global(.dark) .labelHover {

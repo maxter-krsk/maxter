@@ -13,12 +13,7 @@ import {
 } from "@/lib/ui/sheet";
 import styles from "@/app/styles/modules/Header/Burger.module.css";
 import { contactInfo } from "@/lib/site";
-
-const links: [string, string][] = [
-  ["О нас", "/about"],
-  ["Услуги", "/services"],
-  ["Контакты", "/contacts"],
-];
+import { headerLinks } from "./links";
 
 const socials = [
   {
@@ -64,10 +59,10 @@ export function Burger() {
           </SheetHeader>
 
           <nav className="flex flex-col gap-4">
-            {links.map(([title, href]) => (
+            {headerLinks.map(([title, href]) => (
               <Link
                 key={href}
-                className="font-unbounded uppercase text-16 tracking-wide transition-colors hover:text-ash dark:hover:text-lavanda"
+                className="font-unbounded uppercase text-16 tracking-wide transition-colors hover:text-ash dark:hover:text-accent"
                 href={href}
                 onClick={() => setOpen(false)}
               >
@@ -82,7 +77,7 @@ export function Burger() {
               href="/contacts"
               onClick={() => setOpen(false)}
             >
-              Оставить заявку
+              Обсудить проект
             </Link>
           </div>
 

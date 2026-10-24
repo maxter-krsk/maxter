@@ -85,5 +85,5 @@
 }
 
 :global(.dark) .socialLink::before {
-  background: var(--color-toxic);
+  background: var(--color-accent);
 }

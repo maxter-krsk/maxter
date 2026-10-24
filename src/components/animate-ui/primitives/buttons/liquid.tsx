@@ -39,9 +39,9 @@ function LiquidButton({
     "--liquid-button-fill-height": fillHeight,
     "--liquid-button-delay": "0s",
     background:
-      "linear-gradient(var(--liquid-button-color, #21272A) 0 0) no-repeat calc(200% - var(--liquid-button-fill-width, -1%)) 100% / 200% var(--liquid-button-fill-height, 0.2em)",
+      "linear-gradient(var(--liquid-button-color, #212121) 0 0) no-repeat calc(200% - var(--liquid-button-fill-width, -1%)) 100% / 200% var(--liquid-button-fill-height, 0.2em)",
     backgroundColor: "var(--liquid-button-background-color, transparent)",
-    color: "var(--liquid-button-text-color, #111827)",
+    color: "var(--liquid-button-text-color, #212121)",
 
     transition: `background ${delay} var(--liquid-button-delay, 0s),
                  color ${delay} ${delay},

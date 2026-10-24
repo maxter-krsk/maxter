@@ -1,26 +1,10 @@
 "use client";
 
-import { Logo } from "@/app/components/ui/Logo";
+import { FooterLogo } from "@/app/components/ui/FooterLogo";
 import { HoverFlipNavLink } from "@/components/animate-ui/components/buttons/link-flip";
 import { unbounded, roboto } from "@/app/components/ui/fonts";
 import { contactInfo } from "@/lib/site";
-
-const nav = {
-  items: [
-    {
-      title: "О нас",
-      link: "/about",
-    },
-    {
-      title: "Услуги",
-      link: "/services",
-    },
-    {
-      title: "Наши контакты",
-      link: "/contacts",
-    },
-  ],
-};
+import { headerLinks } from "../Header/links";
 
 const year = new Date().getFullYear();
 
@@ -36,10 +20,10 @@ export default function Footer() {
           </span>
           <nav className="uppercase flex-col md:flex-row flex gap-40">
             <ul className="flex flex-col gap-14 sm:gap-20 desk:flex-row desk:gap-40 uppercase font-bold text-16">
-              {nav.items.map((item) => (
-                <li className="desk:mb-20" key={item.title}>
-                  <HoverFlipNavLink className="text-16" href={item.link}>
-                    {item.title}
+              {headerLinks.map(([title, href]) => (
+                <li className="desk:mb-20" key={href}>
+                  <HoverFlipNavLink className="text-16" href={href}>
+                    {title}
                   </HoverFlipNavLink>
                 </li>
               ))}
@@ -69,7 +53,7 @@ export default function Footer() {
             Политика конфиденциальности
           </HoverFlipNavLink>
         </div>
-        <Logo />
+        <FooterLogo />
       </div>
     </footer>
   );

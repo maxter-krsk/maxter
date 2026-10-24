@@ -97,10 +97,8 @@
   cursor: pointer !important;
 }
 
-.themeTogglerWrap
-  :global([data-slot="theme-toggler-button"]:hover),
-.themeTogglerWrap
-  :global([data-slot="theme-toggler-button"]:focus-visible) {
+.themeTogglerWrap :global([data-slot="theme-toggler-button"]:hover),
+.themeTogglerWrap :global([data-slot="theme-toggler-button"]:focus-visible) {
   background: transparent;
 }
 
@@ -109,7 +107,7 @@
 }
 
 :global(.dark) .themeTogglerWrap::before {
-  background: var(--color-toxic);
+  background: var(--color-accent);
 }
 
 :global(.dark) .themeTogglerWrap:hover {
